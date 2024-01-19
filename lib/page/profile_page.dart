@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-      body: MyTextBox( // boxe
+      body: MyTextBox( // boxes
         firstName: firstName,
         lastName: lastName,
         address: address,
