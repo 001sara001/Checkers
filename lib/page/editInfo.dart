@@ -40,7 +40,7 @@ class _EditScreenState extends State<EditScreen> {
           'Profile',
           style: TextStyle(
             fontSize: 20,
-            color: Colors.yellow,
+            color: Colors.white,
             fontWeight: FontWeight.w900,
           ),
         ),
@@ -55,7 +55,7 @@ class _EditScreenState extends State<EditScreen> {
               margin: const EdgeInsets.only(top: 20),
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.blueGrey,
+                color: Colors.brown,
               ),
               child: const Center(
                 child: Icon(
@@ -70,7 +70,7 @@ class _EditScreenState extends State<EditScreen> {
             padding: EdgeInsets.only(left: 25.0),
             child: Text(
               'My Details',
-              style: TextStyle(color: Colors.yellowAccent),
+              style: TextStyle(color: Colors.white),
             ),
           ),
           const MyTextBox(firstName: ' ', lastName: ' ', address: ' '),
