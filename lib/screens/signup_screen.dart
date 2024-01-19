@@ -8,7 +8,7 @@ import 'package:untitled1/screens/signin_screen.dart';
 import 'package:untitled1/page/MenuPage.dart';
 import '../theme/theme.dart';
 
-class SignUpScreen extends StatefulWidget {
+/*class SignUpScreen extends StatefulWidget {
   /*final Function ()? onTap;
   const SignUpScreen({super.key, required this.onTap});*/
   const SignUpScreen({super.key});
@@ -335,4 +335,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-}
+}*/

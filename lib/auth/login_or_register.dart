@@ -4,7 +4,7 @@ import 'package:untitled1/screens/signin_screen.dart';
 import 'package:untitled1/screens/signup_screen.dart';
 
 
-class LoginOrResigter extends StatefulWidget {
+/*class LoginOrResigter extends StatefulWidget {
   const LoginOrResigter({super.key});
 
   @override
@@ -19,9 +19,9 @@ class _LoginOrResigterState extends State<LoginOrResigter> {
     setState ((){
       showLoginPage = !showLoginPage;
     });
-  }
+  }*/
 
-  @override
+ /* @override
   Widget build(BuildContext context) {
     if (showLoginPage) {
       return const SignInScreen ();
@@ -31,4 +31,4 @@ class _LoginOrResigterState extends State<LoginOrResigter> {
       //return SignInScreen (onTap: togglePages);
     }
   }
-}
+}*/

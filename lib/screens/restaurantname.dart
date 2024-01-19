@@ -6,7 +6,7 @@ import 'package:untitled1/widgets/custom_scaffold.dart';
 import 'package:untitled1/widgets/welcome_button.dart';
 import 'package:untitled1/screens/applogo.dart';
 import 'package:untitled1/review_options/postreview.dart';
-class RestaurantName extends StatefulWidget {
+/*class RestaurantName extends StatefulWidget {
   const RestaurantName({super.key});
 
   @override
@@ -80,4 +80,4 @@ class _RestaurantNameState extends State<RestaurantName>  {
       ),
     );
   }
-}
+}*/

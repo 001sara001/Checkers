@@ -5,7 +5,7 @@ import 'package:untitled1/screens/welcome_screen.dart';
 
 
 
-class AuthPage extends StatelessWidget {
+/*class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
 
   @override
@@ -26,4 +26,4 @@ class AuthPage extends StatelessWidget {
 
     );
   }
-}
+}*/
