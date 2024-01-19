@@ -48,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('Profile'), // profile
         actions: [
           TextButton(
             onPressed: () {
@@ -59,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
               );
             },
             child: Text(
-              'Edit',
+              'Edit', // edit button
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.yellow,
@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-      body: MyTextBox(
+      body: MyTextBox( // boxes
         firstName: firstName,
         lastName: lastName,
         address: address,
