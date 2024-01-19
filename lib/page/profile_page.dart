@@ -1,100 +1,81 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled1/page/MenuPage.dart';
-import 'package:untitled1/page/button.dart';
-import 'package:untitled1/page/edit_profile.dart';
 
+import 'editInfo.dart';
+import 'edit_profile.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key});
-
+class ProfilePage extends StatefulWidget {
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  //final currentUser = FirebaseAuth.instance.currentUser!;
+class _ProfilePageState extends State<ProfilePage> {
+  late String firstName;
+  late String lastName;
+  late String address;
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch user data from Firebase when the page loads
+    fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
+    try {
+      // Get the current user from Firebase Authentication
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Get user data from Firestore
+        DocumentSnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+
+        // Set the user data in the state
+        setState(() {
+          firstName = userSnapshot['firstName'] ?? '';
+          lastName = userSnapshot['lastName'] ?? '';
+          address = userSnapshot['address'] ?? '';
+        });
+      }
+    } catch (e) {
+      print('Error ');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-            size: 30,
-          ),
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (ctx) => const MenuPage(), // back button to back in menu page
-              ),
-            );
-          },
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.black,
-        title: const Text(
-          'Profile',
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.yellow,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
+        title: Text('Profile'),
         actions: [
-          // Right side edit button
-          Padding(
-            padding: const EdgeInsets.only(top: 15), // edit button
-            child: TextButton(
-              onPressed: () {
-                // Add your edit logic here
-              },
-              child: Text(
-                'Edit',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.yellow,
-                  fontWeight: FontWeight.w900,
-                ),
+          TextButton(
+            onPressed: () {
+              // Navigate to the EditProfile page
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  EditScreen()),
+              );
+            },
+            child: Text(
+              'Edit',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.yellow,
+                fontWeight: FontWeight.w900,
               ),
             ),
           ),
         ],
       ),
-      body: ListView(
-        children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              width: 120,
-              height: 120,
-              margin: const EdgeInsets.only(top: 20),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.blueGrey,
-              ),
-              child: const Center(
-                child: Icon(
-                  Icons.camera_alt_outlined,
-                  size: 40,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 25.0),
-            child: Text(
-              'My Details',
-              style: TextStyle(color: Colors.yellowAccent),
-            ),
-          ),
-          const MyTextBox(firstName: ' ', lastName: ' ', address: ' '),
-          const SubmitButton(),
-        ],
+      body: MyTextBox(
+        firstName: firstName,
+        lastName: lastName,
+        address: address,
       ),
     );
   }
 }
+
+
