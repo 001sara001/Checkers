@@ -1,81 +1,70 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'editInfo.dart';
-import 'edit_profile.dart';
+import 'Box.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late String firstName;
-  late String lastName;
-  late String address;
 
-  @override
-  void initState() {
-    super.initState();
-    // Fetch user data from Firebase when the page loads
-    fetchUserData();
+  //user
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  // edit
+  Future<void>editField(String field) async{
+
   }
-
-  Future<void> fetchUserData() async {
-    try {
-      // Get the current user from Firebase Authentication
-      User? user = FirebaseAuth.instance.currentUser;
-
-      if (user != null) {
-        // Get user data from Firestore
-        DocumentSnapshot userSnapshot =
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-
-        // Set the user data in the state
-        setState(() {
-          firstName = userSnapshot['firstName'] ?? '';
-          lastName = userSnapshot['lastName'] ?? '';
-          address = userSnapshot['address'] ?? '';
-        });
-      }
-    } catch (e) {
-      print('Error ');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black45,
       appBar: AppBar(
-        title: Text('Profile'), // profile
-        actions: [
-          TextButton(
-            onPressed: () {
-              // Navigate to the EditProfile page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) =>  EditScreen()),
-              );
-            },
-            child: Text(
-              'Edit', // edit button
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.yellow,
-                fontWeight: FontWeight.w900,
-              ),
+
+        title: Text('PRPFILE'),
+
+        backgroundColor: Colors.black45,
+      ),
+      body: ListView(
+        children: [
+          const SizedBox(height: 50,),
+          // Profile pic
+          Icon(Icons.person , size : 72),
+
+          //const SizedBox(height: 10,)
+          //Email
+          Text(
+            currentUser.email!,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          ),
+          const SizedBox(height: 50,),
+          //user details
+          Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Text('Details',
+            style: TextStyle(color: Colors.white),
             ),
           ),
+          // ueser name
+          Box(
+            text: 'Raisa' ,
+            sectionName : 'username' ,
+            onPressed: () => editField ('userName'),),
+          Box(
+            text: 'Empty bio' ,
+            sectionName : 'bio' ,
+            onPressed: () => editField ('bio'),),
+
+          Box(
+            text: 'Empty adress' ,
+            sectionName : 'address' ,
+            onPressed: () => editField ('adress'),),
         ],
-      ),
-      body: MyTextBox( // boxes of
-        firstName: firstName,
-        lastName: lastName,
-        address: address,
       ),
     );
   }
 }
-
-
