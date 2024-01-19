@@ -119,9 +119,9 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
         }
       }
       SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setString("uid",userCredential!.user!.uid);
+     /* await sharedPreferences.setString("uid",userCredential!.user!.uid);
       await sharedPreferences.setString("name",fullRestaurantName.text);
-      await sharedPreferences.setString("Email",restaurantEmailAddress.text.toString());
+      await sharedPreferences.setString("Email",restaurantEmailAddress.text.toString());*/
     }
   }
 }
