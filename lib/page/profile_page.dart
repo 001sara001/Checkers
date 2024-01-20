@@ -1,70 +1,147 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:untitled1/page/edit_profile.dart';
+import 'MenuPage.dart';
 
-import 'Box.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+  class _ProfileScreenState extends State<ProfileScreen> {
+    TextEditingController nameController = TextEditingController();
+    TextEditingController phoneNumberController = TextEditingController();
+    TextEditingController addressController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
 
-  //user
-  final currentUser = FirebaseAuth.instance.currentUser!;
-  // edit
-  Future<void>editField(String field) async{
+    final currentUser = FirebaseAuth.instance.currentUser!;
 
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black45,
-      appBar: AppBar(
+    storeUserInfo() async {
+      String uid = FirebaseAuth.instance.currentUser!.uid;
+      await FirebaseFirestore.instance.collection('Personal Info')
+          .doc(uid)
+          .set({
+        'image': url,
+        'Name': nameController.text,
+        'Phone Number': phoneNumberController.text,
+        'Address': addressController.text,
+        'Email': emailController.text,
+      });
+      nameController.clear();
+      phoneNumberController.clear();
+      addressController.clear();
+      emailController.clear();
+      setState(() {
+        //Loading = false;
+      });
+    }
 
-        title: Text('PRPFILE'),
+    bool loading = false;
 
-        backgroundColor: Colors.black45,
-      ),
-      body: ListView(
-        children: [
-          const SizedBox(height: 50,),
-          // Profile pic
-          Icon(Icons.person , size : 72),
-
-          //const SizedBox(height: 10,)
-          //Email
-          Text(
-            currentUser.email!,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white),
-          ),
-          const SizedBox(height: 50,),
-          //user details
-          Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: Text('Details',
-            style: TextStyle(color: Colors.white),
+   /* void signupValidation({
+      required TextEditingController? name,
+      required TextEditingController? phoneNumber,
+      required TextEditingController? address,
+      required TextEditingController? email,
+      required BuildContext context
+    }) async {
+      if (name!
+          .text
+          .trim()
+          .isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                "Full name is empty"
             ),
           ),
-          // ueser name
-          Box(
-            text: 'Raisa' ,
-            sectionName : 'username' ,
-            onPressed: () => editField ('userName'),),
-          Box(
-            text: 'Empty bio' ,
-            sectionName : 'bio' ,
-            onPressed: () => editField ('bio'),),
+        );
+        return;
+      }
+      else if (phoneNumber!
+          .text
+          .trim()
+          .isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                "Phone NUmber is empty"
+            ),
+          ),
+        );
+        return;
+      }
+      else if (address!
+          .text
+          .trim()
+          .isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                "Address is empty"
+            ),
+          ),
+        );
+        return;
+      }
+      else if (email!
+          .text
+          .trim()
+          .isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                "Email is empty"
+            ),
+          ),
+        );
+        return;
+      }
+    }*/
+      bool isLoading = false;
 
-          Box(
-            text: 'Empty adress' ,
-            sectionName : 'address' ,
-            onPressed: () => editField ('adress'),),
-        ],
-      ),
-    );
-  }
-}
+      @override
+      Widget build(BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Profile'),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                MyTextBox(
+                  Name: nameController.text,
+                  PhoneNumber: phoneNumberController.text,
+                  address: addressController.text,
+                  Email: emailController.text,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    storeUserInfo();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MenuPage()),
+                    );
+                  },
+                  child: Text('Save'),
+
+                ),
+                if (isLoading) CircularProgressIndicator(),
+                // Show loading indicator if saving
+              ],
+            ),
+          ),
+        );
+      }
+    }
