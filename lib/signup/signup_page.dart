@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:untitled1/login/login_page.dart';
 import 'package:untitled1/signup/components/signup_auth_provider.dart';
 import 'package:provider/provider.dart';
-
+//change
 import '../../widgets/my_button.dart';
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
