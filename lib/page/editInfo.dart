@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:untitled1/page/MenuPage.dart';
 import 'package:untitled1/page/button.dart';
@@ -73,7 +72,7 @@ class _EditScreenState extends State<EditScreen> {
               style: TextStyle(color: Colors.white),
             ),
           ),
-          const MyTextBox(firstName: ' ', lastName: ' ', address: ' '),
+          const MyTextBox(Name: ' ', PhoneNumber: ' ', address: ' ', Email : ' '),
           const SubmitButton(),
         ],
       ),
