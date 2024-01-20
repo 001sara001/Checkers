@@ -1,15 +1,19 @@
+
+//etao
 import 'package:flutter/material.dart';
 
 class MyTextBox extends StatelessWidget {
-  final String firstName;
-  final String lastName;
+  final String Name;
+  final String PhoneNumber;
   final String address;
+  final String Email;
 
   const MyTextBox({
     Key? key,
-    required this.firstName,
-    required this.lastName,
+    required this.Name,
+    required this.PhoneNumber,
     required this.address,
+    required this.Email,
   }) : super(key: key);
 
   @override
@@ -22,34 +26,45 @@ class MyTextBox extends StatelessWidget {
             height: 10,
           ),
           TextFieldWidget(
-            label: 'FirstName',
-            icon: Icons.person_2_outlined,
-            value: firstName,
+            label: 'Name',
+            icon: Icons.person,
+            value: Name,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please enter your first name';
+                return 'Please enter your name';
               }
               return null;
             },
           ),
           TextFieldWidget(
-            label: 'LastName',
-            icon: Icons.person_2_outlined,
-            value: lastName,
+            label: 'Phone Numeber',
+            icon: Icons.phone,
+            value: PhoneNumber,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Please enter your last name';
+                return 'Please enter your Phone Number';
               }
               return null;
             },
           ),
           TextFieldWidget(
             label: 'Address',
-            icon: Icons.person_2_outlined,
+            icon: Icons.home,
             value: address,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Please enter your address';
+              }
+              return null;
+            },
+          ),
+          TextFieldWidget(
+            label: 'Email',
+            icon: Icons.email,
+            value: Email,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter your Email address';
               }
               return null;
             },
