@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:untitled1/home.dart';
 import 'package:untitled1/screens/welcome_screen.dart';
 import 'package:untitled1/signup/components/signup_auth_provider.dart';
+import 'package:untitled1/signup/components/signup_auth_provider_for_restaurant.dart';
 import 'package:untitled1/signup/signup_page.dart';
 import 'package:untitled1/splash.dart';
 import "package:untitled1/firebase_options.dart";
 
+import 'login/components/login_auth_provider-for_restaurant.dart';
 import 'login/components/login_auth_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +32,12 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context)=>LoginAuthProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context)=>SignupAuthProviderForRestaurant(),
+          ),
+          ChangeNotifierProvider(
+            create: (context)=>LoginAuthProviderForRestaurant(),
           )
         ],
         child: MaterialApp(
@@ -56,7 +64,7 @@ class MyApp extends StatelessWidget {
             //
             // This works for code too, not just values: Most code changes can be
             // tested with just a hot reload.
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
             useMaterial3: true,
           ),
           home: const Splash(),

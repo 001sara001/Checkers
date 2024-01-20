@@ -6,6 +6,8 @@ import 'package:untitled1/widgets/custom_scaffold.dart';
 import 'package:untitled1/widgets/welcome_button.dart';
 import 'package:untitled1/screens/applogo.dart';
 
+import '../login/components/login_page_for_restaurant.dart';
+import '../signup/components/signup_page_for_restaurant.dart';
 import '../signup/signup_page.dart';
 
 class Restaurant extends StatefulWidget {
@@ -61,8 +63,8 @@ class _RestaurantState extends State<Restaurant> {
                   //const applogo(),
                   const Expanded(
                     child: WelcomeButton(
-                      buttonText: 'Sign in ',
-                      onTap: SignInScreen(),
+                      buttonText: 'Log in ',
+                      onTap: LoginPageForRestaurant(),
                       color: Colors.transparent,
                       textColor: Colors.white ,
                     ),
@@ -70,7 +72,7 @@ class _RestaurantState extends State<Restaurant> {
                   Expanded(
                     child: WelcomeButton(
                       buttonText: 'Sign up',
-                      onTap: const SignupPage(),
+                      onTap: const SignupPageForRestaurant(),
                       color: Colors.white,
                       textColor: lightColorScheme.primary,
                     ),

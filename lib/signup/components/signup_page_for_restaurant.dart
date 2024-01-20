@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/login/login_page.dart';
-import 'package:untitled1/signup/components/signup_auth_provider.dart';
 import 'package:provider/provider.dart';
-//change
+import 'package:untitled1/signup/components/signup_auth_provider_for_restaurant.dart';
+
 import '../../widgets/my_button.dart';
-class SignupPage extends StatefulWidget {
-  const SignupPage({Key? key}) : super(key: key);
+class SignupPageForRestaurant extends StatefulWidget {
+  const SignupPageForRestaurant({Key? key}) : super(key: key);
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<SignupPageForRestaurant> createState() => _SignupPageForRestaurantState();
 }
 
-class _SignupPageState extends State<SignupPage> {
-  TextEditingController fullName=TextEditingController();
-  TextEditingController emailAddress=TextEditingController();
+class _SignupPageForRestaurantState extends State<SignupPageForRestaurant> {
+  TextEditingController fullRestaurantName=TextEditingController();
+  TextEditingController restaurantEmailAddress=TextEditingController();
   TextEditingController password=TextEditingController();
 
   bool visibility=false;
   @override
   Widget build(BuildContext context) {
-    SignupAuthProvider signupAuthProvider=Provider.of<SignupAuthProvider>(context);
+    SignupAuthProviderForRestaurant signupAuthProviderForRestaurant=Provider.of<SignupAuthProviderForRestaurant>(context);
     return Scaffold(
       appBar: AppBar(
-
         backgroundColor: Colors.black,
         elevation: 0,
       ),
@@ -30,36 +29,34 @@ class _SignupPageState extends State<SignupPage> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
-
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Text("Sign Up",
+              const Text("Register",
                 style: TextStyle(
                   fontSize:30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               Column(
                 children: [
                   TextFormField(
-                    controller: fullName,
+                    controller: fullRestaurantName,
                     decoration: const InputDecoration(
 
-                      hintText: "full name",
+                      hintText: "Restaurant name",
                     ),
                   ),
                   TextFormField(
-                    controller: emailAddress,
+                    controller: restaurantEmailAddress,
                     decoration: const InputDecoration(
-                      hintText: "Email address",
+                      hintText: "Restaurant Email address",
                     ),
                   ),
                   TextFormField(
                     obscureText: visibility,
                     controller: password,
                     decoration:  InputDecoration(
-                      hintText: "Password",
+                      hintText: "Password for the restaurant",
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
@@ -76,16 +73,16 @@ class _SignupPageState extends State<SignupPage> {
               ),
               Column(
                 children: [
-                  signupAuthProvider.loading == false?
+                  signupAuthProviderForRestaurant.loading == false?
                   MyButton(
                     onPressed:(){
-                      signupAuthProvider.signupValidation(
+                      signupAuthProviderForRestaurant.signupValidation(
                           context: context,
-                          fullName: fullName,
-                          emailAddress: emailAddress,
-                          password: password);
+                          fullRestaurantName : fullRestaurantName,
+                          restaurantEmailAddress: restaurantEmailAddress,
+                          restaurantPassword: password);
                     },
-                    text: "SIGN UP",
+                    text: "Register",
                   )
                       : Center(
                     child: CircularProgressIndicator(),
@@ -96,12 +93,12 @@ class _SignupPageState extends State<SignupPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Already have an account?\t\t"),
+                      Text("Already have an account for the restaurant?\t\t"),
                       GestureDetector(
-                          onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginPage(),));
-                          },
-                          child: const Text("Sign in"),),
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginPage(),));
+                        },
+                        child: const Text("Sign in"),),
                     ],
                   )
                 ],

@@ -58,7 +58,7 @@ class _UserState extends State<User>  {
 
                   const Expanded(
                     child: WelcomeButton(
-                      buttonText: 'Sign in ',
+                      buttonText: 'Log in ',
                       onTap: LoginPage(),
                       color: Colors.transparent,
                       textColor:  Colors.white ,
