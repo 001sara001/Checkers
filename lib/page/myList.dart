@@ -22,7 +22,7 @@
         leading: Icon(
           icon,
           color: Colors.white,
-          size: 64,
+          size: 35,
         ),
         onTap: onTap,
         title: Text(text , style: TextStyle(color: Colors.white),),

@@ -71,12 +71,23 @@ class SignupAuthProvider with ChangeNotifier {
     }else {
       try {
         loading = true;
-        notifyListeners();
-        userCredential =
+         notifyListeners();
+         //create the user
+        UserCredential userCredential =
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailAddress.text,
           password: password.text,
         );
+        //after creating the user, create a new docuement in cloud firestore called Users
+        FirebaseFirestore.instance
+          .collection("Users")
+          .doc(userCredential.user!.email)
+        .set({
+          'username': emailAddress.text.split('@')[0],// initial username
+          'bio' : 'Empty bio..'// initial empty bio
+          //additional field lagle ekhane add korbo
+        });
+
         loading = true;
         notifyListeners();
         FirebaseFirestore.instance.collection("users")
