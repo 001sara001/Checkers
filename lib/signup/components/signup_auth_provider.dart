@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled1/home.dart';
+import 'package:untitled1/locations/locations.dart';
 import 'package:untitled1/page/MenuPage.dart';
 
 class SignupAuthProvider with ChangeNotifier {
@@ -91,7 +93,8 @@ class SignupAuthProvider with ChangeNotifier {
           notifyListeners();
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context)=>MenuPage(),
+              builder: (context)=>
+              Locations(),
             ),
           );
         });

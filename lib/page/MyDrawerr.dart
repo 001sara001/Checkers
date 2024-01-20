@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:untitled1/page/profile_page.dart';
 
@@ -10,6 +12,7 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+
       backgroundColor: Colors.black54,
       width: MediaQuery.of(context).size.width * 100.0,
       child : Padding(
@@ -46,10 +49,7 @@ class MyDrawer extends StatelessWidget {
             //logout
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MenuPage()),
-                );
+                exit(0);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.transparent,
@@ -64,6 +64,7 @@ class MyDrawer extends StatelessWidget {
                 height: 50,
                 alignment: Alignment.center,
                 child: Text('Log Out', style: TextStyle(fontSize: 20)),
+
               ),
             ),
           ],

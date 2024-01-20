@@ -12,10 +12,10 @@ class TopPartForRestaurant extends StatelessWidget {
           children: [
             //Image.asset("images/Checkers.png",scale:10),
             Image.asset("assets/images/Checkers.png", scale: 2),
-            SizedBox(
+            const SizedBox(
               height: 7,
             ),
-            Text("Sign In", style: TextStyle(
+            const Text("Sign In", style: TextStyle(
               fontSize: 25,
               color: Colors.black,
               fontWeight: FontWeight.bold,

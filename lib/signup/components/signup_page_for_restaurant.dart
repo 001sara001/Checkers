@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:untitled1/login/login_page.dart';
-import 'package:untitled1/signup/components/signup_auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled1/signup/components/signup_auth_provider_for_restaurant.dart';
 
@@ -32,7 +31,7 @@ class _SignupPageForRestaurantState extends State<SignupPageForRestaurant> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Text("Sign Up",
+              const Text("Register",
                 style: TextStyle(
                   fontSize:30,
                   fontWeight: FontWeight.bold,

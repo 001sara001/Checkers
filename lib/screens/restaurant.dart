@@ -63,7 +63,7 @@ class _RestaurantState extends State<Restaurant> {
                   //const applogo(),
                   const Expanded(
                     child: WelcomeButton(
-                      buttonText: 'Sign in ',
+                      buttonText: 'Log in ',
                       onTap: LoginPageForRestaurant(),
                       color: Colors.transparent,
                       textColor: Colors.white ,

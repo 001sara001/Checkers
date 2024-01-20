@@ -22,6 +22,7 @@ class _SignupPageState extends State<SignupPage> {
     SignupAuthProvider signupAuthProvider=Provider.of<SignupAuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
+
         backgroundColor: Colors.black,
         elevation: 0,
       ),
@@ -29,6 +30,7 @@ class _SignupPageState extends State<SignupPage> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
+
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const Text("Sign Up",
@@ -37,6 +39,7 @@ class _SignupPageState extends State<SignupPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
               Column(
                 children: [
                   TextFormField(

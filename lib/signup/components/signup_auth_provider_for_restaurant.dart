@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled1/home.dart';
 import 'package:untitled1/page/MenuPage.dart';
 
 import '../../allrestaurants/rest_home.dart';
-import '../../home_for_restaurant.dart';
+
 
 class SignupAuthProviderForRestaurant with ChangeNotifier {
 
@@ -118,10 +117,6 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
           );
         }
       }
-      SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
-     /* await sharedPreferences.setString("uid",userCredential!.user!.uid);
-      await sharedPreferences.setString("name",fullRestaurantName.text);
-      await sharedPreferences.setString("Email",restaurantEmailAddress.text.toString());*/
     }
   }
 }
