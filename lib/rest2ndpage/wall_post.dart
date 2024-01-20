@@ -106,7 +106,7 @@ class _WallPostState extends State<WallPost> {
       margin: EdgeInsets.only(top: 25, left: 15, right: 15),
       padding: EdgeInsets.all(20),
 
-      //wallposts
+      //wallpostss
       child: Column(
 
         crossAxisAlignment: CrossAxisAlignment.start,
