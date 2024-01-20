@@ -1,62 +1,81 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:untitled1/page/text_box.dart';
-import 'package:untitled1/rest2ndpage/text_field.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
-  //user
+  File? _selectedImage;
   final currentUser = FirebaseAuth.instance.currentUser!;
-  //all users
   final usersCollection = FirebaseFirestore.instance.collection("Users");
 
-  //edit field
-  Future <void> editField (String field) async {
+  Future<void> _pickImageFromGallery() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+
+      // Upload the image to Firebase Storage
+      final storageRef = FirebaseStorage.instance.ref().child('profile_images/${currentUser.uid}');
+      await storageRef.putFile(_selectedImage!);
+
+      // Get the image URL
+      final imageUrl = await storageRef.getDownloadURL();
+
+      // Update the image URL in Firestore
+      await usersCollection.doc(currentUser.email).update({'profileImageUrl': imageUrl});
+    }
+  }
+
+  Future<void> editField(String field) async {
     String newValue = "";
     await showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: Colors.blueGrey[900],
-            title: Text ("Edit $field",
-            style: TextStyle(color: Colors.white),),
-          content: TextField(
-            autofocus: true,
-            style: TextStyle (color: Colors.white),
-            decoration: InputDecoration (
-              hintText: "Enter your new $field",
-              hintStyle: TextStyle (color: Colors.grey),
-            ),
-            onChanged: (value) {
-              newValue = value;
-            },
-          ),
-          actions: [
-            //cancel button
-            TextButton (
-                child: Text ('Cancel', style: TextStyle (color: Colors.white),),
-            onPressed: () => Navigator.pop (context),),
-            //save
-            TextButton (
-              child: Text ('Save', style: TextStyle (color: Colors.white),),
-              onPressed: () => Navigator.of(context).pop(newValue),),
-          ],
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.blueGrey[900],
+        title: Text(
+          "Edit $field",
+          style: TextStyle(color: Colors.white),
         ),
+        content: TextField(
+          autofocus: true,
+          style: TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            hintText: "Enter your new $field",
+            hintStyle: TextStyle(color: Colors.grey),
+          ),
+          onChanged: (value) {
+            newValue = value;
+          },
+        ),
+        actions: [
+          TextButton(
+            child: Text('Cancel', style: TextStyle(color: Colors.white)),
+            onPressed: () => Navigator.pop(context),
+          ),
+          TextButton(
+            child: Text('Save', style: TextStyle(color: Colors.white)),
+            onPressed: () => Navigator.of(context).pop(newValue),
+          ),
+        ],
+      ),
     );
 
-    //update in firestore
-    if (newValue.trim().length>0){
-      await usersCollection.doc(currentUser.email).update({field:newValue});
+    if (newValue.trim().length > 0) {
+      await usersCollection.doc(currentUser.email).update({field: newValue});
     }
-
   }
 
   @override
@@ -70,82 +89,93 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.white,
           ),
         ),
-        centerTitle: true, // Center aligns the title
+        centerTitle: true,
         backgroundColor: Colors.indigo,
       ),
-      body: StreamBuilder <DocumentSnapshot>(
+      body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance.collection("Users").doc(currentUser.email).snapshots(),
         builder: (context, snapshot) {
-          //get user data
           if (snapshot.hasData) {
-            final userData = snapshot.data!.data () as Map<String, dynamic>;
+            final userData = snapshot.data!.data() as Map<String, dynamic>;
 
             return ListView(
               children: [
                 const SizedBox(height: 50),
-                //profile pic
-                Icon (
-                  Icons.person,
-                  size: 80,
+                // Profile pic
+                IconButton(
+                  onPressed: _pickImageFromGallery,
+                  icon: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(
+                        Icons.photo_camera,
+                        size: 80,
+                        color: Colors.indigo[900],
+                      ),
+                      if (_selectedImage != null)
+                        ClipOval(
+                          child: Image.file(
+                            _selectedImage!,
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
 
-                const SizedBox(height: 10),
-
-                //user email
-                Text(currentUser.email!,
+                // User email
+                Text(
+                  currentUser.email!,
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.indigo[900]),
                 ),
 
-                //user details
+                // User details
                 Padding(
                   padding: const EdgeInsets.only(left: 25.0),
-                  child: Text (
+                  child: Text(
                     'My Details',
-                    style: TextStyle (
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.indigo[300]),),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.indigo[300],
+                    ),
+                  ),
                 ),
 
-                // username
-                MyTextBox(text: userData['username'],
-                  sectionName: 'username',
-                  onPressed: () => editField('username'),),
+                // Username
+                MyTextBox(text: userData['username'], sectionName: 'username', onPressed: () => editField('username')),
 
-                //bio
-                MyTextBox(
-                  text: userData['bio'],
-                  sectionName: 'bio',
-                  onPressed: () => editField('bio'),),
+                // Bio
+                MyTextBox(text: userData['bio'], sectionName: 'bio', onPressed: () => editField('bio')),
 
-                //user posts
-                //user details
+                // User posts
                 const SizedBox(height: 50),
-                Padding(
+                /*
+          Padding(
                   padding: const EdgeInsets.only(left: 25.0),
-                  child: Text (
+                  child: Text(
                     'My Posts',
-                    style: TextStyle (
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.indigo[300]),),
-                ),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.indigo[300],
+                    ),
+                  ),
+                ),*/
               ],
             );
-          } else if (snapshot.hasError){
+          } else if (snapshot.hasError) {
             return Center(
               child: Text('Error${snapshot.error}'),
             );
           }
 
-          return const Center(child: CircularProgressIndicator(),);
-
+          return const Center(child: CircularProgressIndicator());
         },
       ),
-
-
     );
   }
 }
-

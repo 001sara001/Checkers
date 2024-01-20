@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled1/helper/helper_method.dart';
+import 'package:untitled1/rest2ndpage/comment_button.dart';
 import 'package:untitled1/rest2ndpage/like_button.dart';
+import 'package:untitled1/rest2ndpage/comment.dart';
 
 class WallPost extends StatefulWidget {
   final String message;
@@ -10,50 +13,87 @@ class WallPost extends StatefulWidget {
   final List<String> likes;
 
   const WallPost({
-  super.key,
+    Key? key,
     required this.message,
     required this.user,
     required this.likes,
     required this.postId,
-  });
+  }) : super(key: key);
 
   @override
   State<WallPost> createState() => _WallPostState();
 }
 
 class _WallPostState extends State<WallPost> {
-
-  //user
   final currentUser = FirebaseAuth.instance.currentUser!;
   bool isLiked = false;
+  final _commentTextController = TextEditingController();
 
   @override
-  void initState () {
+  void initState() {
     super.initState();
-    isLiked= widget.likes.contains(currentUser.email);
+    isLiked = widget.likes.contains(currentUser.email);
   }
 
-  //toggle like
-  void toggleLike () {
+  void toggleLike() {
     setState(() {
-      isLiked=!isLiked;
+      isLiked = !isLiked;
     });
 
-    //access the foc in firebase
-    DocumentReference postRef=
-        FirebaseFirestore.instance.collection('UserPosts').doc(widget.postId);
+    DocumentReference postRef =
+    FirebaseFirestore.instance.collection('UserPosts').doc(widget.postId);
 
     if (isLiked) {
-      // like kora hoile user er email firebase e jabe
       postRef.update({
         'Likes': FieldValue.arrayUnion([currentUser.email])
       });
     } else {
-      //unlike kora hoile remove hobe email firebase theke
       postRef.update({
         'Likes': FieldValue.arrayRemove([currentUser.email])
       });
     }
+  }
+
+  void addComment(String commentText) {
+    FirebaseFirestore.instance
+        .collection("UserPosts")
+        .doc(widget.postId)
+        .collection("Comments")
+        .add({
+      "CommentText": commentText,
+      "CommentedBy": currentUser.email,
+      "CommentTime": Timestamp.now(),
+    });
+  }
+
+  void showCommentDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Add Comment"),
+        content: TextField(
+          controller: _commentTextController,
+          decoration: InputDecoration(hintText: "Write a comment.."),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _commentTextController.clear();
+            },
+            child: Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              addComment(_commentTextController.text);
+              Navigator.pop(context);
+              _commentTextController.clear();
+            },
+            child: Text("Post"),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -65,35 +105,81 @@ class _WallPostState extends State<WallPost> {
       ),
       margin: EdgeInsets.only(top: 25, left: 15, right: 15),
       padding: EdgeInsets.all(20),
-      child: Row(
+
+      //wallpost
+      child: Column(
+
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            children: [
-              //like button
-              LikeButton(
-                  isLiked: isLiked,
-
-                  onTap: toggleLike),
-
-              // Add some space
-              SizedBox(width: 5.0),
-
-              // like count
-              Text (widget.likes.length.toString(),
-              style: TextStyle (color: Colors.black)),
-            ],
-          ),
-
+          const SizedBox(width: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(widget.message),
+              const SizedBox(height: 10),
               Text(
                 widget.user,
                 style: TextStyle(color: Colors.grey[500]),
               ),
               const SizedBox(height: 10),
-              Text(widget.message),
             ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  LikeButton(
+                    isLiked: isLiked,
+                    onTap: toggleLike,
+                  ),
+                  const SizedBox(width: 10.0),
+                  Text(
+                    widget.likes.length.toString(),
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 10),
+              Column(
+                children: [
+                  CommentButton(onTap: showCommentDialog),
+                  const SizedBox(width: 5.0),
+                  Text(
+                    '0',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection("UserPosts")
+                .doc(widget.postId)
+                .collection("Comments")
+                .orderBy("CommentTime", descending: true)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              return ListView(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: snapshot.data!.docs.map((doc) {
+                  final commentData = doc.data() as Map<String, dynamic>;
+                  return Comment(
+                    text: commentData["CommentText"],
+                    user: commentData["CommentedBy"],
+                    time: formatDate(commentData["CommentTime"]),
+                  );
+                }).toList(),
+              );
+            },
           ),
         ],
       ),
