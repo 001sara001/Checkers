@@ -1,10 +1,8 @@
 
-
 // eta new eta niba
-=======
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:untitled1/page/MenuPage.dart';
 import 'package:untitled1/page/myList.dart';
 import 'package:untitled1/page/profile_page.dart';
 
@@ -18,7 +16,6 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-
       backgroundColor: Colors.black54,
       child: Column(
         children: [
@@ -36,53 +33,15 @@ class MyDrawer extends StatelessWidget {
                     builder: (context)=>ProfileScreen()),
               )),
           MyListTitle(icon: Icons.logout, text: 'Log Out',
-              onTap: ()=>Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context)=>MenuPage()),
-              )),
+            onTap: () {
+              // Perform logout actions here
+              exit(0); // This will exit the app
+            },
+          ),
           //logout
 
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(color: Colors.white),
-                ),
-              ),
-              child: Container(
-                width: 120,
-                height: 50,
-                alignment: Alignment.center,
-                child: Text('Edit Profile', style: TextStyle(fontSize: 20)),
-              ),
-            ),
-            //logout
-            ElevatedButton(
-              onPressed: () {
-                exit(0);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  side: BorderSide(color: Colors.white),
-                ),
-              ),
-              child: Container(
-                width: 120,
-                height: 50,
-                alignment: Alignment.center,
-                child: Text('Log Out', style: TextStyle(fontSize: 20)),
 
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }}
