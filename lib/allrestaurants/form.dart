@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_string/random_string.dart';
 import 'package:untitled1/Service/resdata.dart';
+import 'package:firebase_storage/firebase_storage.dart'as firebase_storage;
+import 'package:image_picker/image_picker.dart';
+//import 'dart:io';
+
 class form extends StatefulWidget {
   const form({super.key});
 
@@ -13,12 +17,37 @@ class _formState extends State<form> {
   TextEditingController namecontroller = new TextEditingController();
   TextEditingController descontroller = new TextEditingController();
   TextEditingController pricecontroller = new TextEditingController();
+ // File? _image;
+  // Function to pick an image
+ /* Future<void> _pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      }
+    });
+  }
+
+  // Function to upload the image to Firebase Storage
+  Future<String> _uploadImage() async {
+    String imageName = "menu_image_${randomAlphaNumeric(5)}";
+    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('menu_images')
+        .child(imageName);
+    await ref.putFile(_image!);
+    return await ref.getDownloadURL();
+  }*/
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          //mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               "Form",
@@ -27,9 +56,11 @@ class _formState extends State<form> {
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold
               ),
-            )
+            ),
+
           ],
         ),
+        centerTitle: true,
       ),
 
       body: Container(
@@ -84,6 +115,33 @@ class _formState extends State<form> {
 
                 ),
               ),
+              SizedBox(height: 10.0,),
+              Text("Item Image", style: TextStyle(color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+             IconButton(onPressed: (){
+               ImagePicker imagePicker=ImagePicker();
+               imagePicker.pickImage(source: ImageSource.gallery);
+
+
+             }, icon: Icon(Icons.camera_alt_rounded,size: 60,)),
+             /* GestureDetector(
+                onTap: () {
+                 // _pickImage();
+                  ImagePicker imagePicker=ImagePicker();
+                  imagePicker.pickImage(source: ImageSource.gallery);
+                },
+                child: Container(
+                  padding: EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: _image == null
+                      ? Icon(Icons.add_a_photo, size: 50, color: Colors.teal)
+                      : Image.file(_image!),
+                ),
+              ),*/
               SizedBox(height: 30,),
               Center(
               child :ElevatedButton(onPressed:()async{
@@ -95,6 +153,7 @@ class _formState extends State<form> {
                   "Id":Id,
                 };
                 await DatabaseMethods().addMenuDetails(menuInfoMap,Id).then((value) {
+                  Navigator.pop(context);
                 Fluttertoast.showToast(
                 msg: "Menu Detail Has been added succesfully",
                 toastLength: Toast.LENGTH_SHORT,
@@ -111,8 +170,10 @@ class _formState extends State<form> {
             ]
         ),
 
-
       ),
     );
   }
+
+
+
 }
