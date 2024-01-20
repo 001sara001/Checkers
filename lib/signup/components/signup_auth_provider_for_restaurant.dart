@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled1/home.dart';
+import 'package:untitled1/page/MenuPage.dart';
 
 import '../../allrestaurants/rest_home.dart';
+//hiiiii
+
 
 class SignupAuthProviderForRestaurant with ChangeNotifier {
 
@@ -92,7 +96,7 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
           notifyListeners();
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context)=>RestHome(),
+              builder: (context)=>rest_home(),
               //
             ),
           );

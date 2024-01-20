@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled1/home.dart';
 import 'package:untitled1/screens/welcome_screen.dart';
 import 'package:untitled1/signup/components/signup_auth_provider.dart';
@@ -11,8 +12,10 @@ import "package:untitled1/firebase_options.dart";
 
 import 'login/components/login_auth_provider-for_restaurant.dart';
 import 'login/components/login_auth_provider.dart';
-void main() async {
+import 'package:shared_preferences/shared_preferences.dart';
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

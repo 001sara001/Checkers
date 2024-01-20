@@ -5,7 +5,7 @@ import 'package:untitled1/screens/signup_screen.dart';
 import 'package:untitled1/widgets/custom_scaffold.dart';
 import '../theme/theme.dart';
 import 'package:untitled1/screens/firestoreservice.dart';
-class SignInScreen extends StatefulWidget {
+/*class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
 
   @override
@@ -289,4 +289,4 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
-}
+}*/
