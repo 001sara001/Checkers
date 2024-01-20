@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled1/page/MyDrawerr.dart';
 
 class ReviewsPage extends StatelessWidget {
   @override
@@ -7,7 +8,8 @@ class ReviewsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Reviews"),
       ),
-      body: Center(
+
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

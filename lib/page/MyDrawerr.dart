@@ -8,6 +8,9 @@ import 'package:untitled1/page/profile_page.dart';
 
 import 'package:untitled1/screens/applogo.dart';
 
+import '../locations/locations.dart';
+import 'Profile.dart';
+
 
 
 class MyDrawer extends StatelessWidget {
@@ -30,9 +33,21 @@ class MyDrawer extends StatelessWidget {
               onTap: ()=>Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context)=>ProfileScreen()),
+                    builder: (context)=>ProfilePage()),
               )),
-          MyListTitle(icon: Icons.logout, text: 'Log Out',
+          MyListTitle(icon: Icons.message_rounded, text: 'Message', onTap: ()=>Navigator.pop(context),),
+          //change location
+          /*
+          MyListTitle(icon: Icons.location_on_outlined, text: 'Change Location',
+              onTap: () {
+                      // Use Navigator to navigate to the Locations widget
+              Navigator.push(
+               context,
+              MaterialPageRoute(builder: (context) => Locations()),
+              );
+             },
+          ),*/
+          MyListTitle(icon: Icons.logout, text: 'Sign Out',
             onTap: () {
               // Perform logout actions here
               exit(0); // This will exit the app
