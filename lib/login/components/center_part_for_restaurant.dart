@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../forgot_password/forgot_password_for_restaurant.dart';
+import '../route/routing_page.dart';
+
 class CenterPartForRestaurant extends StatelessWidget {
   final TextEditingController? email;
   final bool obscureText;
@@ -29,6 +32,17 @@ class CenterPartForRestaurant extends StatelessWidget {
           obscureText: obscureText,
           controller: password,
           decoration: InputDecoration(
+            counter: GestureDetector(
+              onTap: (){
+                RoutingPage.goTonext(context: context,
+                  navigateTo:ForgotPasswordForRestaurant(),
+                );
+              },
+              child: Text("Forgot Password?",
+                  style:TextStyle(
+                    color: Colors.green,
+                  )),
+            ),
             hintText: "Password",
             suffixIcon: IconButton(onPressed: onPressed, icon: icon),
           ),
@@ -37,3 +51,4 @@ class CenterPartForRestaurant extends StatelessWidget {
     );
   }
 }
+//

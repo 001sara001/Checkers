@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:untitled1/login/route/routing_page.dart';
+
+import '../../forgot_password/forgot_password.dart';
 
 class CenterPart extends StatelessWidget {
   final TextEditingController? email;
@@ -29,6 +32,17 @@ class CenterPart extends StatelessWidget {
           obscureText: obscureText,
           controller: password,
           decoration: InputDecoration(
+            counter: GestureDetector(
+              onTap: (){
+              RoutingPage.goTonext(context: context,
+                navigateTo: ForgotPassword(),
+              );
+              },
+              child: Text("Forgot Password?",
+              style:TextStyle(
+                color: Colors.green,
+              )),
+            ),
             hintText: "Password",
             suffixIcon: IconButton(onPressed: onPressed, icon: icon),
           ),
