@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/login/login_page.dart';
-import 'package:untitled1/theme/theme.dart';
-import 'package:untitled1/widgets/custom_scaffold.dart';
-import 'package:untitled1/widgets/welcome_button.dart';
-import 'package:untitled1/screens/applogo.dart';
-
+import '../login/login_page.dart';
 import '../signup/signup_page.dart';
+import '../theme/theme.dart';
+import '../widgets/custom_scaffold.dart';
+import '../widgets/welcome_button.dart';
+import 'applogo.dart';
 
-class User extends StatefulWidget {
-  const User({super.key});
-
-  @override
-  State<User> createState() => _UserState();
-}
-class _UserState extends State<User>  {
+class user extends StatelessWidget {
+  const user({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,9 +5,6 @@ import 'package:untitled1/home.dart';
 import 'package:untitled1/page/MenuPage.dart';
 
 import '../../allrestaurants/rest_home.dart';
-//hiiiii
-
-
 class SignupAuthProviderForRestaurant with ChangeNotifier {
 
   static Pattern pattern =

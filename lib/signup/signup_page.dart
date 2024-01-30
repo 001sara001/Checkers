@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/login/login_page.dart';
-import 'package:untitled1/signup/components/signup_auth_provider.dart';
 import 'package:provider/provider.dart';
 //change
 import '../../widgets/my_button.dart';
+import '../login/login_page.dart';
+import 'components/signup_auth_provider.dart';
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
@@ -25,6 +25,12 @@ class _SignupPageState extends State<SignupPage> {
 
         backgroundColor: Colors.black,
         elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: SafeArea(
         child: Padding(

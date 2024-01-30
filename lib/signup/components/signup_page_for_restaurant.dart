@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/login/login_page.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled1/signup/components/signup_auth_provider_for_restaurant.dart';
 
+
+import '../../login/login_page.dart';
 import '../../widgets/my_button.dart';
 class SignupPageForRestaurant extends StatefulWidget {
   const SignupPageForRestaurant({Key? key}) : super(key: key);

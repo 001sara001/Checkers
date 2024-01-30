@@ -8,17 +8,17 @@ class UserModel {
 
   UserModel.fromMap(Map<String, dynamic> map) {
     //"userUid": userCredential!.user!.uid,
-    uid = map["uid"];
-    fullName = map["fullname"];
-    emailAddress = map["email"];
+    uid = map["userUid"];
+    fullName = map["username"];
+    emailAddress = map["emailAddress"];
    // profilepic = map["profilepic"];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "uid": uid,
-      "fullname": fullName,
-      "email": emailAddress,
+      "userUid": uid,
+      "username": fullName,
+      "emailAddress": emailAddress,
       //"profilepic": profilepic,
     };
   }

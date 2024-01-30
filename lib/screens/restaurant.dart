@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/screens/signin_screen.dart';
-import 'package:untitled1/screens/signup_screen.dart';
-import 'package:untitled1/theme/theme.dart';
-import 'package:untitled1/widgets/custom_scaffold.dart';
-import 'package:untitled1/widgets/welcome_button.dart';
-import 'package:untitled1/screens/applogo.dart';
-
 import '../login/components/login_page_for_restaurant.dart';
 import '../signup/components/signup_page_for_restaurant.dart';
-import '../signup/signup_page.dart';
+import '../theme/theme.dart';
+import '../widgets/custom_scaffold.dart';
+import '../widgets/welcome_button.dart';
+import 'applogo.dart';
 
 class Restaurant extends StatefulWidget {
   const Restaurant({super.key});

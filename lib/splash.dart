@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:untitled1/widgets/custom_scaffold.dart';
-import 'package:untitled1/screens/welcome_screen.dart';
 import 'package:untitled1/screens/applogo.dart';
+import 'package:untitled1/screens/welcome_screen.dart';
+import 'package:untitled1/widgets/custom_scaffold.dart';
+
+
+
 
 class Splash extends StatefulWidget {
   const Splash({super.key});

@@ -147,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                 // Username
                 MyTextBox(text: userData['username'], sectionName: 'username', onPressed: () => editField('username')),
-
+               // MyTextBox(text: userData['emailAddress'], sectionName: 'emailAddress', onPressed: () => editField('emailAddress')),
                 // Bio
                 MyTextBox(text: userData['bio'], sectionName: 'bio', onPressed: () => editField('bio')),
 
