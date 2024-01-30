@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled1/widgets/my_button.dart';
-
-import '../screens/applogo.dart';
-import 'package:untitled1/login/components/center_part.dart';
-import 'package:untitled1/login/components/top_part.dart';
-import 'package:untitled1/login/components/end_part.dart';
-
-import '../widgets/custom_scaffold.dart';
+import 'components/center_part.dart';
+import 'components/end_part.dart';
 import 'components/login_auth_provider.dart';
-
+import 'components/top_part.dart';
+//
 class LoginPage extends StatefulWidget {
 
   const LoginPage({Key? key}) : super(key: key);
@@ -72,4 +67,7 @@ class _LoginPageState extends State<LoginPage> {
 
   }
 }
+//
+//
+//
 //
