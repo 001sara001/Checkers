@@ -82,9 +82,13 @@ class SignupAuthProvider with ChangeNotifier {
           .doc(userCredential.user!.email)
         .set({
           'username': emailAddress.text.split('@')[0],// initial username
-          'bio' : 'Empty bio..'// initial empty bio
+          'bio' : 'Empty bio..',
+          "emailAddress" : emailAddress.text,
+          "userUid": userCredential!.user!.uid,
+           // initial empty bio
           //additional field lagle ekhane add korbo
-        });
+        },
+        );
 
         loading = true;
         notifyListeners();
