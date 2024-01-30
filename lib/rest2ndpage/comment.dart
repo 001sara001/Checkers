@@ -26,7 +26,13 @@ class Comment extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //comment
-          Text (text),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 15, // Adjust the font size as needed
+              // Add other style properties if needed
+            ),
+          ),
          const SizedBox(height: 5),
          //user, time
           Row(

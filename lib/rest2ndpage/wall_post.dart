@@ -115,7 +115,14 @@ class _WallPostState extends State<WallPost> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(widget.message),
+              Text(
+                widget.message,
+                style: TextStyle(
+                  fontSize: 18, // Adjust the font size as needed
+                  // Add other style properties if needed
+                ),
+              ),
+
               const SizedBox(height: 10),
               Text(
                 widget.user,

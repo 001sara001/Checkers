@@ -1,27 +1,48 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled1/home.dart';
+import 'package:untitled1/login/FirebaseHelper.dart';
+import 'package:untitled1/login/Homepage/HomePage.dart';
+import 'package:untitled1/model/UserModel.dart';
+import 'package:untitled1/page/Profile.dart';
 import 'package:untitled1/screens/welcome_screen.dart';
 import 'package:untitled1/signup/components/signup_auth_provider.dart';
 import 'package:untitled1/signup/components/signup_auth_provider_for_restaurant.dart';
-import 'package:untitled1/signup/signup_page.dart';
 import 'package:untitled1/splash.dart';
 import "package:untitled1/firebase_options.dart";
 
 import 'login/components/login_auth_provider-for_restaurant.dart';
 import 'login/components/login_auth_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
+  User? currentUser=FirebaseAuth.instance.currentUser;
+  if(currentUser != null) {
+    // Logged In
+    UserModel? thisUserModel=await FirebaseHelper.getUserModelById(currentUser.uid);
+    if(thisUserModel != null) {
+      runApp(MyAppLoggedIn(userModel: thisUserModel, firebaseUser: currentUser));
+    }
+    else {
+      runApp(MyApp());
+    }
+  }
+  else {
+    // Not logged in
+    runApp(MyApp());
+  }
+
+  //runApp(const MyApp());
+
 }
 
+//not logged in
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -45,28 +66,13 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'CHECKERS',
           theme: ThemeData(
             appBarTheme: AppBarTheme(
               iconTheme: IconThemeData(
                 color: Colors.black,
               ),
             ),
-            // This is the theme of your application.
-            //
-            // TRY THIS: Try running your application with "flutter run". You'll see
-            // the application has a purple toolbar. Then, without quitting the app,
-            // try changing the seedColor in the colorScheme below to Colors.green
-            // and then invoke "hot reload" (save your changes or press the "hot
-            // reload" button in a Flutter-supported IDE, or press "r" if you used
-            // the command line to start the app).
-            //
-            // Notice that the counter didn't reset back to zero; the application
-            // state is not lost during the reload. To reset the state, use hot
-            // restart instead.
-            //
-            // This works for code too, not just values: Most code changes can be
-            // tested with just a hot reload.
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
             useMaterial3: true,
           ),
@@ -76,7 +82,31 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//
+//logged in
+class MyAppLoggedIn extends StatelessWidget {
+  // This widget is the root of your application.
+  final UserModel userModel;
+  final User firebaseUser;
+
+  const MyAppLoggedIn({super.key, required this.userModel, required this.firebaseUser});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            appBarTheme: AppBarTheme(
+              iconTheme: IconThemeData(
+                color: Colors.black,
+              ),
+            ),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+            useMaterial3: true,
+          ),
+          home: HomePage(userModel: userModel,firebaseUser:firebaseUser),
+        );
+  }
+}
 
 
 
