@@ -193,18 +193,15 @@ class _WallPostState extends State<WallPost> {
                     children: [
                       Text (widget.user, style: TextStyle (color: Colors.blueGrey),
                       ),
-                      Text (".", style: TextStyle (color: Colors.blueGrey)),
+                      Text ("   .  ", style: TextStyle (color: Colors.blueGrey)),
                       Align(
                         alignment: Alignment.centerRight,
-                        widthFactor: 1.8,
+                       // widthFactor: 2,
                         child: Text(
                           widget.time,
                           style: TextStyle(color: Colors.blueGrey),
                         ),
                       ),
-
-
-
                     ],
                   ),
                   const SizedBox(height: 10),
