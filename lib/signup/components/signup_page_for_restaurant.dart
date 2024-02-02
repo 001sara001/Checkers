@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled1/signup/components/signup_auth_provider_for_restaurant.dart';
 
@@ -16,6 +20,27 @@ class _SignupPageForRestaurantState extends State<SignupPageForRestaurant> {
   TextEditingController fullRestaurantName=TextEditingController();
   TextEditingController restaurantEmailAddress=TextEditingController();
   TextEditingController password=TextEditingController();
+
+  XFile? imageXFIle;
+  final ImagePicker _picker = ImagePicker();
+  String imageUrl = '';
+
+  Future<void> _getImage() async {
+    imageXFIle = await _picker.pickImage(source: ImageSource.gallery);
+    print('${imageXFIle?.path}');
+    String uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
+
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child("logo");
+    Reference referenceImageUpload = referenceDirImages.child(uniqueFileName);
+    await referenceImageUpload.putFile(File(imageXFIle!.path));
+    imageUrl = await referenceImageUpload.getDownloadURL();
+    setState(() {
+      imageXFIle;
+    });
+  }
+
+
 
   bool visibility=false;
   @override
@@ -70,6 +95,34 @@ class _SignupPageForRestaurantState extends State<SignupPageForRestaurant> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      _getImage();
+                    },
+                    child: CircleAvatar(
+                      radius: MediaQuery.of(context).size.width * 0.15,
+                      backgroundColor: Colors.white,
+                      backgroundImage:
+                      imageXFIle == null ? null : FileImage(File(imageXFIle!.path)),
+                      child: imageXFIle == null
+                          ? Icon(
+                        Icons.add_photo_alternate,
+                        size: MediaQuery.of(context).size.width * 0.15,
+                        color: Colors.grey,
+                      )
+                          : null,
+                    ),
+                  ),
+                  Text("ADD LOGO",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal))
+
+
                 ],
               ),
               Column(
@@ -81,7 +134,7 @@ class _SignupPageForRestaurantState extends State<SignupPageForRestaurant> {
                           context: context,
                           fullRestaurantName : fullRestaurantName,
                           restaurantEmailAddress: restaurantEmailAddress,
-                          restaurantPassword: password);
+                          restaurantPassword: password, imageUrl: imageUrl);
                     },
                     text: "Register",
                   )

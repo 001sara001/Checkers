@@ -24,12 +24,14 @@ class _rest_homeState extends State<rest_home> {
   TextEditingController pricecontroller = new TextEditingController();
   Stream? MenuStream;
   String? userId; // Add this variable to store the user's UID
-  String? RestName=FirebaseAuth.instance.currentUser?.displayName;
+  String? RestName;
+
 
 
   getontheload() async {
     // Get the current user's UID
      userId = FirebaseAuth.instance.currentUser?.uid;
+     RestName = FirebaseAuth.instance.currentUser?.displayName;
      print("User ID: $userId");
     if (userId != null) {
       MenuStream = await DatabaseMethods().getMenuDetails(userId!);
@@ -103,10 +105,26 @@ class _rest_homeState extends State<rest_home> {
                                   style: TextStyle(color: Colors.black,
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold)),
-                              Text("Price : " + ds["Price"], style: TextStyle(
+                              Text("Price : " + ds["Price"]+"Tk", style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold)),
+                              SizedBox(height: 10),
+                              // Displaying the image
+                             ds["Image"] != null
+                                  ? Image.network(
+                                ds["Image"],
+                                width: MediaQuery.of(context).size.width,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              )
+                                  : Container(),
+                             /* Container(
+                                height: 80,
+                                width: 80,
+                                child: ds["Image"] != null?
+                                    Image.network(ds['Image']):Container(),
+                              ),*/
 
                             ],
                           ),)
@@ -119,7 +137,6 @@ class _rest_homeState extends State<rest_home> {
     );
 
   }
-  SharedPreferences?sharedPreferences;
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +157,7 @@ class _rest_homeState extends State<rest_home> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
 
-      appBar: AppBar(
+      /*appBar: AppBar(
 
         backgroundColor:Colors.black87,
         title: Row(
@@ -157,7 +174,7 @@ class _rest_homeState extends State<rest_home> {
             ),
           ],
         ),
-      ),
+      ),*/
       body: Container(
         margin: EdgeInsets.only(left: 20.0,right: 20.0,top: 30.0),
         child: Column(

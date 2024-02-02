@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled1/allrestaurants/rest_home2.dart';
 import 'package:untitled1/home.dart';
 import 'package:untitled1/page/MenuPage.dart';
 
@@ -18,6 +22,7 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
     required TextEditingController? fullRestaurantName,
     required TextEditingController? restaurantEmailAddress,
     required TextEditingController? restaurantPassword,
+    required String imageUrl, // Add imageUrl as a parameter
     required BuildContext context
   }) async {
     if (fullRestaurantName!.text.trim().isEmpty) {
@@ -73,6 +78,7 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
       try {
         loading = true;
         notifyListeners();
+
         userCredential =
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: restaurantEmailAddress.text,
@@ -88,12 +94,15 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
             "emailAddress": restaurantEmailAddress.text,
             "password": restaurantPassword.text,
             "userUid": userCredential!.user!.uid,
+            "logo":imageUrl,
           },
         ).then((value) {
           loading = false;
           notifyListeners();
           Navigator.of(context).push(
             MaterialPageRoute(
+              builder: (context)=>rest_home2(),
+              //
               //builder: (context)=>HomePage(),
               builder: (context)=>rest_home(),
             ),
@@ -118,4 +127,6 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
       }
     }
   }
+
+
 }
