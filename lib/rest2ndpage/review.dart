@@ -53,7 +53,7 @@ class _ReviewPageState extends State<ReviewPage> {
             //the wall
             Expanded(
               child: StreamBuilder(
-                 stream: FirebaseFirestore.instance.collection("UserPosts").orderBy("Timestamp", descending: true).snapshots(),
+                 stream: FirebaseFirestore.instance.collection("UserPosts").orderBy("Timestamp", descending: true ).snapshots(),
 
                 builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {

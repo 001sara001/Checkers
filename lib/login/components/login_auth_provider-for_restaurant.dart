@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../allrestaurants/rest_home.dart';
 import '../../home.dart';
 
 
@@ -65,7 +66,7 @@ class LoginAuthProviderForRestaurant with ChangeNotifier {
             loading = false;
             notifyListeners();
             await Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => MyHomePage(),),);
+              MaterialPageRoute(builder: (context) => rest_home(),),);
           },
         );
         notifyListeners();

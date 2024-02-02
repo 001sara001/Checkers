@@ -22,7 +22,7 @@ class RestPage extends StatelessWidget {
             child: const Center(
               child: Text(
                 "Dominos",
-                style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold, color: Colors.black),
               ),
             ),
           ),
