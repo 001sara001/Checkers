@@ -24,10 +24,9 @@ class _rest_homeState extends State<rest_home> {
   TextEditingController pricecontroller = new TextEditingController();
   Stream? MenuStream;
   String? userId; // Add this variable to store the user's UID
+  String? RestName=FirebaseAuth.instance.currentUser?.displayName;
+=======
   String? RestName;
-
-
-
   getontheload() async {
     // Get the current user's UID
      userId = FirebaseAuth.instance.currentUser?.uid;
@@ -155,7 +154,7 @@ class _rest_homeState extends State<rest_home> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-
+      appBar: AppBar(
 
       /*appBar: AppBar(
 
