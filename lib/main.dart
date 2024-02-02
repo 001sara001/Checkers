@@ -24,9 +24,9 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
-  User? currentUser=FirebaseAuth.instance.currentUser;
+  User? currentUser = FirebaseAuth.instance.currentUser;
 
- if(currentUser != null) {
+  /*if(currentUser != null) {
     // Logged In
     UserModel? thisUserModel=await FirebaseHelper.getUserModelById(currentUser.uid);
     if(thisUserModel != null) {
@@ -40,11 +40,12 @@ Future<void> main() async {
   else {
     // Not logged in
     runApp(MyApp());
-  }
+  }*/
 
-  //runApp(const MyApp());
-
+  runApp(const MyApp());
 }
+
+
 
 //not logged in
 class MyApp extends StatelessWidget {
