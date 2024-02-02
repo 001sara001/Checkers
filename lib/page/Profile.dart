@@ -131,25 +131,38 @@ class _ProfilePageState extends State<ProfilePage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.indigo[900]),
                 ),
+                const SizedBox(height: 20),
+
 
                 // User details
                 Padding(
                   padding: const EdgeInsets.only(left: 25.0),
-                  child: Text(
-                    'My Details',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.indigo[300],
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'My Details   ',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: Colors.indigo[300],
+                      ),
                     ),
                   ),
                 ),
 
+
+                const SizedBox(height: 10),
+
+
                 // Username
-                MyTextBox(text: userData['username'], sectionName: 'username', onPressed: () => editField('username')),
+                MyTextBox(text: userData['username'],
+                    sectionName: 'username',
+                    onPressed: () => editField('username')),
                // MyTextBox(text: userData['emailAddress'], sectionName: 'emailAddress', onPressed: () => editField('emailAddress')),
                 // Bio
-                MyTextBox(text: userData['bio'], sectionName: 'bio', onPressed: () => editField('bio')),
+                MyTextBox(text: userData['bio'],
+                    sectionName: 'bio',
+                    onPressed: () => editField('bio')),
 
                 // User posts
                 const SizedBox(height: 50),
