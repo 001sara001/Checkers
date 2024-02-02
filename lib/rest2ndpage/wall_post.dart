@@ -202,7 +202,7 @@ class _WallPostState extends State<WallPost> {
                       Text(
                         widget.user,
                         style: TextStyle(color: Colors.blueGrey),
-                      ),
+                      ), //text
                       Text(
                         "   .  ",
                         style: TextStyle(color: Colors.blueGrey),
