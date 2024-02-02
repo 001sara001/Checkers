@@ -187,40 +187,41 @@ class _WallPostState extends State<WallPost> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.message,
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Text(
-                        widget.user,
-                        style: TextStyle(color: Colors.blueGrey),
-                      ), //text
-                      Text(
-                        "   .  ",
-                        style: TextStyle(color: Colors.blueGrey),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.message,
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          widget.time,
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Text(
+                          widget.user,
                           style: TextStyle(color: Colors.blueGrey),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                ],
+                        Text(
+                          "   .  ",
+                          style: TextStyle(color: Colors.blueGrey),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            widget.time,
+                            style: TextStyle(color: Colors.blueGrey),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                ),
               ),
-              if (widget.user == currentUser.email)
-                DeleteButton(onTap: deletePost)
+              if (widget.user == currentUser.email) DeleteButton(onTap: deletePost),
             ],
           ),
           Row(
