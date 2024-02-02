@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled1/screens/user.dart';
 import 'package:untitled1/screens/restaurant.dart';
 import 'package:untitled1/screens/applogo.dart';
 import 'package:untitled1/widgets/custom_scaffold.dart';
-
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
@@ -65,9 +65,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: const Text('Restaurant', style: TextStyle(fontSize: 25, color: Colors.white)),
             ),
           ),
+
         ],
       ),
     );
   }
 }
-
