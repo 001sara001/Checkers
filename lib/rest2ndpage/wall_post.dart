@@ -10,6 +10,7 @@ class WallPost extends StatefulWidget {
   final String message;
   final String user;
   final String postId;
+  final String time;
   final List<String> likes;
 
   const WallPost({
@@ -18,6 +19,7 @@ class WallPost extends StatefulWidget {
     required this.user,
     required this.likes,
     required this.postId,
+    required this.time,
   }) : super(key: key);
 
   @override
@@ -106,7 +108,7 @@ class _WallPostState extends State<WallPost> {
       margin: EdgeInsets.only(top: 25, left: 15, right: 15),
       padding: EdgeInsets.all(20),
 
-      //wallpostss
+      //wallpost
       child: Column(
 
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,9 +126,25 @@ class _WallPostState extends State<WallPost> {
               ),
 
               const SizedBox(height: 10),
-              Text(
-                widget.user,
-                style: TextStyle(color: Colors.grey[500]),
+
+              //user
+              Row(
+                children: [
+                  Text (widget.user, style: TextStyle (color: Colors.blueGrey),
+                  ),
+                  Text (".", style: TextStyle (color: Colors.blueGrey)),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    widthFactor: 1.8,
+                    child: Text(
+                      widget.time,
+                      style: TextStyle(color: Colors.blueGrey),
+                    ),
+                  ),
+
+
+
+                ],
               ),
               const SizedBox(height: 10),
             ],
