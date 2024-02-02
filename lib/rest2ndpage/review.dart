@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:untitled1/rest2ndpage/text_field.dart';
 import 'package:untitled1/rest2ndpage/wall_post.dart';
 
+import '../helper/helper_method.dart';
+
 class ReviewPage extends StatefulWidget {
   const ReviewPage({Key? key}) : super(key: key);
 
@@ -62,6 +64,7 @@ class _ReviewPageState extends State<ReviewPage> {
                         final post = snapshot.data!.docs[index];
                         return WallPost(
                             message: post['Message'], user: post['UserEmail'], postId: post.id,
+                          time: formatDate(post ['Timestamp']),
                           likes: List<String>.from(post['Likes']?? []),
                         );
                       },
