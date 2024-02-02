@@ -14,58 +14,55 @@ class ReviewPage extends StatefulWidget {
 }
 
 class _ReviewPageState extends State<ReviewPage> {
-  //user
   final currentUser = FirebaseAuth.instance.currentUser!;
-
-  //text controller
   final textController = TextEditingController();
+  int currentRating = 0;
 
-  //post message method
   void postMessage() {
-    // Only post message if there is something in the text field
     if (textController.text.isNotEmpty) {
-      // Store in Firebase
       FirebaseFirestore.instance.collection("UserPosts").add({
         'UserEmail': currentUser.email,
         'Message': textController.text,
         'Timestamp': Timestamp.now(),
         'Likes': [],
+        'Rating': currentRating,
       });
     }
 
-    // Clear the text field after a short delay
     Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
         textController.clear();
+        currentRating = 0;
       });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: Center(
-        child: Column (
+        child: Column(
           children: [
-            //the wall
             Expanded(
               child: StreamBuilder(
-                 stream: FirebaseFirestore.instance.collection("UserPosts").orderBy("Timestamp", descending: true).snapshots(),
-
+                stream: FirebaseFirestore.instance
+                    .collection("UserPosts")
+                    .orderBy("Timestamp", descending: true)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
                     return ListView.builder(
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
-                        // get the message
                         final post = snapshot.data!.docs[index];
                         return WallPost(
-                            message: post['Message'], user: post['UserEmail'], postId: post.id,
-                          time: formatDate(post ['Timestamp']),
-                          likes: List<String>.from(post['Likes']?? []),
+                          message: post['Message'],
+                          user: post['UserEmail'],
+                          postId: post.id,
+                          time: formatDate(post['Timestamp']),
+                          likes: List<String>.from(post['Likes'] ?? []),
+                          rating: post['Rating'] ?? 0,
                         );
                       },
                     );
@@ -74,50 +71,61 @@ class _ReviewPageState extends State<ReviewPage> {
                       child: Text('Error: ${snapshot.error}'),
                     );
                   } else {
-                    return const Center(
-                      //child: CircularProgressIndicator(),
-                    );
+                    return const Center();
                   }
                 },
               ),
             ),
-
-
-            // post message
             Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Row (
+              child: Row(
                 children: [
-                  //textfield
                   Expanded(
                     child: MyTextField(
                       controller: textController,
                       hintText: 'Write your review here...',
                       obscureText: false,
-
+                    ),
                   ),
+                  IconButton(
+                    onPressed: postMessage,
+                    icon: Icon(Icons.arrow_circle_up_rounded),
                   ),
-
-                  //post button
-                  IconButton(onPressed: postMessage,
-                      icon: Icon(Icons.arrow_circle_up_rounded),
-                  ),
+                  // Display the star rating input
+                  buildStarRatingInput(),
                 ],
               ),
             ),
-
-            //logged in as
-            Text ('Logged in as: '+currentUser.email!,
-            style: TextStyle(color: Colors.grey),),
-
+            Text(
+              'Logged in as: ' + currentUser.email!,
+              style: TextStyle(color: Colors.grey),
+            ),
             const SizedBox(
               height: 20,
             )
           ],
         ),
-      )
+      ),
     );
   }
 
-// Add any additional methods or properties here
+  Widget buildStarRatingInput() {
+    List<Widget> stars = [];
+    for (int i = 0; i < 5; i++) {
+      stars.add(
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              currentRating = i + 1;
+            });
+          },
+          child: Icon(
+            i < currentRating ? Icons.star : Icons.star_border,
+            color: Colors.blueGrey,
+          ),
+        ),
+      );
+    }
+    return Row(children: stars);
+  }
 }

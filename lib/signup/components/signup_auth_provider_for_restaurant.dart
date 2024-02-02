@@ -8,6 +8,7 @@ import 'package:untitled1/allrestaurants/rest_home2.dart';
 import 'package:untitled1/home.dart';
 import 'package:untitled1/page/MenuPage.dart';
 
+
 import '../../allrestaurants/rest_home.dart';
 class SignupAuthProviderForRestaurant with ChangeNotifier {
 
@@ -102,6 +103,8 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
             MaterialPageRoute(
               builder: (context)=>rest_home2(),
               //
+              //builder: (context)=>HomePage(),
+              builder: (context)=>rest_home(),
             ),
           );
         });
