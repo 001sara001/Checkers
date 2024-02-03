@@ -17,37 +17,42 @@ class CenterPart extends StatelessWidget {
     required this.onPressed,
     Key? key,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextFormField(
-          controller: email,
-          decoration: InputDecoration(
-            hintText: "Email",
-          ),
-        ),
-        TextFormField(
-          obscureText: obscureText,
-          controller: password,
-          decoration: InputDecoration(
-            counter: GestureDetector(
-              onTap: (){
-              RoutingPage.goTonext(context: context,
-                navigateTo: ForgotPassword(),
-              );
-              },
-              child: Text("Forgot Password?",
-              style:TextStyle(
-                color: Colors.green,
-              )),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          TextFormField(
+            controller: email,
+            decoration: InputDecoration(
+              hintText: "Email",
             ),
-            hintText: "Password",
-            suffixIcon: IconButton(onPressed: onPressed, icon: icon),
           ),
-        ),
-      ],
+          TextFormField(
+            obscureText: obscureText,
+            controller: password,
+            decoration: InputDecoration(
+              counter: GestureDetector(
+                onTap: () {
+                  RoutingPage.goTonext(
+                    context: context,
+                    navigateTo: ForgotPassword(),
+                  );
+                },
+                child: Text(
+                  "Forgot Password?",
+                  style: TextStyle(
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+              hintText: "Password",
+              suffixIcon: IconButton(onPressed: onPressed, icon: icon),
+            ),
+          ),
+        ],
+      ),
     );
   }
+
 }
