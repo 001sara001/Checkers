@@ -1,14 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled1/page/MenuPage.dart';
 import 'package:untitled1/page/MyDrawerr.dart';
-import 'package:untitled1/rest2ndpage/drawer.dart';
+import 'model/UserModel.dart';
 
 import 'rest_page.dart'; // Ensure the correct import for RestPage
 
-import 'login/login_page.dart';
-
 class MyHomePage extends StatefulWidget {
+ /* final UserModel userModel;
+  final User firebaseUser;
+*/
+  //const MyAppLoggedIn({super.key, required this.userModel, required this.firebaseUser});
   const MyHomePage({Key? key}) : super(key: key);
 
   @override
@@ -43,7 +44,11 @@ class _MyHomePageState extends State<MyHomePage> {
         ],*/
       ),
 
-      endDrawer: MyDrawer(),
+      endDrawer: MyDrawer(
+       /* firebaseUser: firebaseUser,
+        userModel: userModel,
+       */
+      ),
       body: GestureDetector(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => RestPage()));
