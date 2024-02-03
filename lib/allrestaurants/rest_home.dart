@@ -1,3 +1,6 @@
+//code
+
+//more edits of this codes
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,15 +24,12 @@ class _rest_homeState extends State<rest_home> {
   TextEditingController pricecontroller = new TextEditingController();
   Stream? MenuStream;
   String? userId; // Add this variable to store the user's UID
-  String? RestName;
-
-
-
+  String? RestName=FirebaseAuth.instance.currentUser?.displayName;
   getontheload() async {
     // Get the current user's UID
-    userId = FirebaseAuth.instance.currentUser?.uid;
-    RestName = FirebaseAuth.instance.currentUser?.displayName;
-    print("User ID: $userId");
+     userId = FirebaseAuth.instance.currentUser?.uid;
+     RestName = FirebaseAuth.instance.currentUser?.displayName;
+     print("User ID: $userId");
     if (userId != null) {
       MenuStream = await DatabaseMethods().getMenuDetails(userId!);
       setState(() {});
@@ -108,7 +108,7 @@ class _rest_homeState extends State<rest_home> {
                                   fontWeight: FontWeight.bold)),
                               SizedBox(height: 10),
                               // Displaying the image
-                              ds["Image"] != null
+                             ds["Image"] != null
                                   ? Image.network(
                                 ds["Image"],
                                 width: MediaQuery.of(context).size.width,
@@ -116,7 +116,7 @@ class _rest_homeState extends State<rest_home> {
                                 fit: BoxFit.cover,
                               )
                                   : Container(),
-                              /* Container(
+                             /* Container(
                                 height: 80,
                                 width: 80,
                                 child: ds["Image"] != null?
@@ -152,8 +152,6 @@ class _rest_homeState extends State<rest_home> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-
-
       /*appBar: AppBar(
 
         backgroundColor:Colors.black87,
