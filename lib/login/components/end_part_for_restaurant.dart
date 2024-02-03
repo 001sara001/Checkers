@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/signup/components/signup_page_for_restaurant.dart';
-import 'package:untitled1/signup/signup_page.dart';
-
+import '../../signup/components/signup_page_for_restaurant.dart';
 import '../../widgets/my_button.dart';
 class EndPartForRestaurant extends StatelessWidget {
   final void Function()? onPressed;

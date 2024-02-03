@@ -1,7 +1,5 @@
-//code
-
-//more edits of this code
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled1/Service/resdata.dart';
@@ -22,24 +20,32 @@ class _rest_homeState extends State<rest_home> {
   TextEditingController descontroller = new TextEditingController();
   TextEditingController pricecontroller = new TextEditingController();
   Stream? MenuStream;
-  getontheload()async{
-    MenuStream=await DatabaseMethods().getMenuDetails();
-    setState(() {
+  String? userId; // Add this variable to store the user's UID
+  String? RestName;
 
-    });
+
+
+  getontheload() async {
+    // Get the current user's UID
+    userId = FirebaseAuth.instance.currentUser?.uid;
+    RestName = FirebaseAuth.instance.currentUser?.displayName;
+    print("User ID: $userId");
+    if (userId != null) {
+      MenuStream = await DatabaseMethods().getMenuDetails(userId!);
+      setState(() {});
+    }
   }
 
   @override
-  void initState(){
+  void initState() {
     getontheload();
     super.initState();
-
   }
 
-
   Widget allMenuDetails(){
-    return StreamBuilder(
-        stream:MenuStream,
+    return Container(
+      child: StreamBuilder(
+          stream:MenuStream,
           builder: (context,AsyncSnapshot snappshot) {
             return snappshot.hasData
 
@@ -82,9 +88,9 @@ class _rest_homeState extends State<rest_home> {
                                       Icon(Icons.edit,color: Colors.black,)),
                                   SizedBox(width: 2.0,),
                                   GestureDetector(
-                                    onTap: ()async{
-                                      await DatabaseMethods().deletMenuDetail(ds["Id"]);
-                                    },
+                                      onTap: ()async{
+                                        await DatabaseMethods().deletMenuDetail(ds["Id"],userId!);
+                                      },
                                       child:
                                       Icon(Icons.delete,color: Colors.black,)),
 
@@ -96,10 +102,26 @@ class _rest_homeState extends State<rest_home> {
                                   style: TextStyle(color: Colors.black,
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold)),
-                              Text("Price : " + ds["Price"], style: TextStyle(
+                              Text("Price : " + ds["Price"]+"Tk", style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold)),
+                              SizedBox(height: 10),
+                              // Displaying the image
+                              ds["Image"] != null
+                                  ? Image.network(
+                                ds["Image"],
+                                width: MediaQuery.of(context).size.width,
+                                height: 150,
+                                fit: BoxFit.cover,
+                              )
+                                  : Container(),
+                              /* Container(
+                                height: 80,
+                                width: 80,
+                                child: ds["Image"] != null?
+                                    Image.network(ds['Image']):Container(),
+                              ),*/
 
                             ],
                           ),)
@@ -108,10 +130,10 @@ class _rest_homeState extends State<rest_home> {
                   );
                 })
                 : Container();
-          } );
+          } ),
+    );
 
   }
-  SharedPreferences?sharedPreferences;
 
   @override
   Widget build(BuildContext context) {
@@ -132,54 +154,36 @@ class _rest_homeState extends State<rest_home> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
 
 
-      appBar: AppBar(
+      /*appBar: AppBar(
+
         backgroundColor:Colors.black87,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
 
             Text(
-         "Resturant",
+              RestName??"MENU",
               style: TextStyle(
-                color: Colors.teal,
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold
+                  color: Colors.teal,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold
               ),
-             // sharedPreferences!.getString("name")!,
-            )
+            ),
           ],
         ),
-      ),
+      ),*/
       body: Container(
         margin: EdgeInsets.only(left: 20.0,right: 20.0,top: 30.0),
         child: Column(
           children: [
             Expanded(child: allMenuDetails()),
-           /*Material(
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                padding: EdgeInsets.all(20),
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(10)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Name : Burger",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold)),
-              Text("Description : Delicious",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold)),
-              Text("Price : 300tk",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold)),
-
-            ],
-          ),)
-
-          ),*/
           ],
         ),
 
       ),
     );
 
-    
+
   }
   Future EditMenuDetails(String id)=>showDialog(context: context, builder:(context)=>AlertDialog(
     content: Container(
@@ -189,7 +193,7 @@ class _rest_homeState extends State<rest_home> {
           Row(children: [
             GestureDetector(onTap:(){
               Navigator.pop(context);
-              } ,
+            } ,
               child: Icon(Icons.cancel),),
             SizedBox(width: 60,),
             Text(
@@ -269,7 +273,7 @@ class _rest_homeState extends State<rest_home> {
               "Id": id,
 
             };
-            await DatabaseMethods().updateMenuDetail(id,updateInfo).then((value) {
+            await DatabaseMethods().updateMenuDetail(id,userId!,updateInfo).then((value) {
               Navigator.pop(context);
               Fluttertoast.showToast(
                   msg: "Updated Successfully",
@@ -289,4 +293,3 @@ class _rest_homeState extends State<rest_home> {
   ));
 
 }
-

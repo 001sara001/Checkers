@@ -1,5 +1,4 @@
 
-// eta new eta niba
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +10,7 @@ import 'package:untitled1/screens/applogo.dart';
 
 import '../locations/locations.dart';
 import '../screens/welcome_screen.dart';
-import 'Profile.dart';
+
 
 
 /*
@@ -66,8 +65,8 @@ class MyDrawer extends StatelessWidget {
   }}
 */
 
-class MyDrawer extends StatelessWidget {
-  MyDrawer({Key? key}) : super(key: key);
+class rest_drawer extends StatelessWidget {
+  rest_drawer({Key? key}) : super(key: key);
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
@@ -83,15 +82,7 @@ class MyDrawer extends StatelessWidget {
           //home list
           MyListTitle(icon: Icons.home, text: 'Home', onTap: () => Navigator.pop(context),),
           //profile list
-          MyListTitle(
-            icon: Icons.person,
-            text: 'Profile',
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ProfilePage()),
-            ),
-          ),
-          MyListTitle(icon: Icons.message_rounded, text: 'Message', onTap: () => Navigator.pop(context),),
+          //MyListTitle(icon: Icons.message_rounded, text: 'Message', onTap: () => Navigator.pop(context),),
           //change location
           /*
           MyListTitle(

@@ -31,7 +31,7 @@ class MyTextBox extends StatelessWidget {
             children: [
               Text (
                   sectionName,
-              style: TextStyle(color: Colors.blueGrey[200]),
+              style: TextStyle(color: Colors.blueGrey[300]),
               ),
 
               //edit button

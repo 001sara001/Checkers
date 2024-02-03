@@ -36,6 +36,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
       // Update the image URL in Firestore
       await usersCollection.doc(currentUser.email).update({'profileImageUrl': imageUrl});
+
+      // After updating the image, set _selectedImage back to null
+      setState(() {
+        _selectedImage = null;
+      });
     }
   }
 
@@ -77,7 +82,6 @@ class _ProfilePageState extends State<ProfilePage> {
       await usersCollection.doc(currentUser.email).update({field: newValue});
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,70 +105,77 @@ class _ProfilePageState extends State<ProfilePage> {
             return ListView(
               children: [
                 const SizedBox(height: 50),
-                // Profile pic
-                IconButton(
-                  onPressed: _pickImageFromGallery,
-                  icon: Stack(
-                    alignment: Alignment.center,
+                // Wrapped the Column in a Container
+                Container(
+                  child: Column(
                     children: [
-                      Icon(
-                        Icons.photo_camera,
-                        size: 80,
-                        color: Colors.indigo[900],
+                      ElevatedButton(
+                        onPressed: _pickImageFromGallery,
+                        child: Text('Change Photo'),
                       ),
-                      if (_selectedImage != null)
-                        ClipOval(
-                          child: Image.file(
-                            _selectedImage!,
-                            width: 80,
-                            height: 80,
-                            fit: BoxFit.cover,
+                      const SizedBox(height: 20),
+                      // Profile pic
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              IconButton(
+                                onPressed: _pickImageFromGallery,
+                                icon: Icon(
+                                  Icons.photo_camera,
+                                  size: 80,
+                                  color: Colors.indigo[900],
+                                ),
+                              ),
+                              if (_selectedImage == null && userData['profileImageUrl'] == null)
+                                Container(), // Placeholder for the initial state
+                              if (_selectedImage != null)
+                                ClipOval(
+                                  child: Image.file(
+                                    _selectedImage!,
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              if (_selectedImage == null && userData['profileImageUrl'] != null)
+                                ClipOval(
+                                  child: Image.network(
+                                    userData['profileImageUrl'],
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                            ],
                           ),
-                        ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
-
                 // User email
                 Text(
                   currentUser.email!,
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.indigo[900]),
                 ),
-
-                // User details
-                Padding(
-                  padding: const EdgeInsets.only(left: 25.0),
-                  child: Text(
-                    'My Details',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.indigo[300],
-                    ),
-                  ),
-                ),
-
+                const SizedBox(height: 20),
                 // Username
-                MyTextBox(text: userData['username'], sectionName: 'username', onPressed: () => editField('username')),
-               // MyTextBox(text: userData['emailAddress'], sectionName: 'emailAddress', onPressed: () => editField('emailAddress')),
+                MyTextBox(
+                  text: userData['username'],
+                  sectionName: 'username',
+                  onPressed: () => editField('username'),
+                ),
                 // Bio
-                MyTextBox(text: userData['bio'], sectionName: 'bio', onPressed: () => editField('bio')),
-
-                // User posts
-                const SizedBox(height: 50),
-                /*
-          Padding(
-                  padding: const EdgeInsets.only(left: 25.0),
-                  child: Text(
-                    'My Posts',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.indigo[300],
-                    ),
-                  ),
-                ),*/
+                MyTextBox(
+                  text: userData['bio'],
+                  sectionName: 'bio',
+                  onPressed: () => editField('bio'),
+                ),
+                // Other widgets...
               ],
             );
           } else if (snapshot.hasError) {
@@ -178,4 +189,6 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+
 }
