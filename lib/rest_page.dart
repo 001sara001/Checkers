@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:untitled1/widgets/menu_home.dart';
 import 'rest2ndpage/review.dart';
 
 class RestPage extends StatelessWidget {
+
+final String id;
+final String collection;
+final String image;
+
+const RestPage({Key?key,required this.id,required this.collection,required this.image}):super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dominos"),
+        title: Text(collection),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
             height: 200.0,
-            decoration: const BoxDecoration(
+            decoration:  BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/img2.png'),
+                image: NetworkImage(image),
                 fit: BoxFit.cover,
               ),
             ),
@@ -26,7 +34,7 @@ class RestPage extends StatelessWidget {
               ),
             ),
           ),
-          const DefaultTabController(
+           DefaultTabController(
             length: 3,
             child: Expanded(
               child: Column(
@@ -43,11 +51,11 @@ class RestPage extends StatelessWidget {
                       children: [
                         // Content for the "Menu" tab
                         Center(
-                          child: Text("Menu Content"),
+                          child: menu_home(collection: collection, id: id),
                         ),
                         // Content for the "Reviews" tab
                         Center(
-                          child: ReviewPage(), // Use the ReviewsPage widget here
+                          child: ReviewPage(id: id,), // Use the ReviewsPage widget here
                         ),
                         // Content for the "Location" tab
                         Center(

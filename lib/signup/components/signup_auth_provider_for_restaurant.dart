@@ -25,6 +25,7 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
     required String imageUrl, // Add imageUrl as a parameter
     required BuildContext context
   }) async {
+
     if (fullRestaurantName!.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -74,7 +75,19 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
         ),
       );
       return;
-    }else {
+    }
+    else if (imageUrl.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Please add a logo"),
+        ),
+      );
+      return;
+    }
+
+
+
+    else {
       try {
         loading = true;
         notifyListeners();
@@ -104,7 +117,6 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
               builder: (context)=>rest_home2(),
               //
               //builder: (context)=>HomePage(),
-             // builder: (context)=>rest_home(),
             ),
           );
         });
@@ -130,3 +142,4 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
 
 
 }
+

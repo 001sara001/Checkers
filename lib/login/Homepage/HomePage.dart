@@ -2,10 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled1/model/RestaurantModel.dart';
 import 'package:untitled1/page/Profile.dart';
 
+import '../../SearchPage/SearchPage.dart';
+import '../../home.dart';
 import '../../model/UserModel.dart';
+import '../FirebaseHelper.dart';
 import '../login_page.dart';
+import 'ChatRoomModel.dart';
+import 'ChatRoomPage.dart';
 
 class HomePage extends StatefulWidget {
   final UserModel userModel;
@@ -23,7 +29,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Chat App"),
+        title: Text("Messages"),
         actions: [
           IconButton(
             onPressed: () async {
@@ -33,7 +39,7 @@ class _HomePageState extends State<HomePage> {
                 context,
                 MaterialPageRoute(
                     builder: (context) {
-                      return LoginPage();
+                      return MyHomePage();
                     }
                 ),
               );
@@ -42,11 +48,11 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      /*
       body: SafeArea(
         child: Container(
           child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection("chatrooms").where("participants.${widget.userModel.uid}", isEqualTo: true).snapshots(),
+            stream: FirebaseFirestore.instance.collection("chatrooms")
+                .where("participants.${widget.userModel.uid}", isEqualTo: true).snapshots(),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.active) {
                 if(snapshot.hasData) {
@@ -55,7 +61,8 @@ class _HomePageState extends State<HomePage> {
                   return ListView.builder(
                     itemCount: chatRoomSnapshot.docs.length,
                     itemBuilder: (context, index) {
-                      ChatRoomModel chatRoomModel = ChatRoomModel.fromMap(chatRoomSnapshot.docs[index].data() as Map<String, dynamic>);
+                      ChatRoomModel chatRoomModel = ChatRoomModel.fromMap(chatRoomSnapshot.docs[index]
+                          .data() as Map<String, dynamic>);
 
                       Map<String, dynamic> participants = chatRoomModel.participants!;
 
@@ -63,11 +70,11 @@ class _HomePageState extends State<HomePage> {
                       participantKeys.remove(widget.userModel.uid);
 
                       return FutureBuilder(
-                        future: FirebaseHelper.getUserModelById(participantKeys[0]),
-                        builder: (context, userData) {
-                          if(userData.connectionState == ConnectionState.done) {
-                            if(userData.data != null) {
-                              UserModel targetUser = userData.data as UserModel;
+                        future: FirebaseHelper.getRestaurantModelById(participantKeys[0]),
+                        builder: (context, restaurantData) {
+                          if(restaurantData.connectionState == ConnectionState.done) {
+                            if(restaurantData.data != null) {
+                              RestaurantModel targetUser =restaurantData.data as  RestaurantModel;
 
                               return ListTile(
                                 onTap: () {
@@ -75,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                                     context,
                                     MaterialPageRoute(builder: (context) {
                                       return ChatRoomPage(
-                                        chatroom: chatRoomModel,
+                                        chatRoom: chatRoomModel,
                                         firebaseUser: widget.firebaseUser,
                                         userModel: widget.userModel,
                                         targetUser: targetUser,
@@ -86,8 +93,10 @@ class _HomePageState extends State<HomePage> {
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(targetUser.profilepic.toString()),
                                 ),
-                                title: Text(targetUser.fullname.toString()),
-                                subtitle: (chatRoomModel.lastMessage.toString() != "") ? Text(chatRoomModel.lastMessage.toString()) : Text("Say hi to your new friend!", style: TextStyle(
+                                title: Text(targetUser.fullRestaurantName.toString()),
+                                subtitle: (chatRoomModel.lastMessage.toString() != "") ?
+                                Text(chatRoomModel.lastMessage.toString())
+                                    : Text("Say hi to your new friend!", style: TextStyle(
                                   color: Theme.of(context).colorScheme.secondary,
                                 ),),
                               );
@@ -131,7 +140,8 @@ class _HomePageState extends State<HomePage> {
           }));
         },
         child: Icon(Icons.search),
-      ),*/
+      ),
     );
   }
 }
+
