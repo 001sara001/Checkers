@@ -4,6 +4,9 @@ import 'package:untitled1/screens/user.dart';
 import 'package:untitled1/screens/restaurant.dart';
 import 'package:untitled1/screens/applogo.dart';
 import 'package:untitled1/widgets/custom_scaffold.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:untitled1/notif/notification_services.dart';
+
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
@@ -12,6 +15,21 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  /*
+  NotificationServices notificationServices = NotificationServices();
+
+  @override
+  void initState () {
+    //TODO: implement initState
+    super.initState();
+    notificationServices.requestNotificationPermission();
+
+    notificationServices.getDeviceToken().then((value){
+      print ('device token');
+      print (value);
+    });
+  }
+  */
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
