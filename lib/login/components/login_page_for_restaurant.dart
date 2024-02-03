@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled1/login/components/top_part_for_restaurant.dart';
-import 'package:untitled1/widgets/my_button.dart';
-
-
-import 'package:untitled1/login/components/center_part.dart';
-import 'package:untitled1/login/components/top_part.dart';
-import 'package:untitled1/login/components/end_part.dart';
-
-
-
 import 'center_part_for_restaurant.dart';
 import 'end_part_for_restaurant.dart';
 import 'login_auth_provider-for_restaurant.dart';
-import 'login_auth_provider.dart';
+
 
 class LoginPageForRestaurant extends StatefulWidget {
 

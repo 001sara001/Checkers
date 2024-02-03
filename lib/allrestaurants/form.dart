@@ -161,13 +161,13 @@ class _formState extends State<form> {
               radius: MediaQuery.of(context).size.width * 0.15,
               backgroundColor: Colors.white,
               backgroundImage:
-                  imageXFIle == null ? null : FileImage(File(imageXFIle!.path)),
+              imageXFIle == null ? null : FileImage(File(imageXFIle!.path)),
               child: imageXFIle == null
                   ? Icon(
-                      Icons.add_photo_alternate,
-                      size: MediaQuery.of(context).size.width * 0.15,
-                      color: Colors.grey,
-                    )
+                Icons.add_photo_alternate,
+                size: MediaQuery.of(context).size.width * 0.15,
+                color: Colors.grey,
+              )
                   : null,
             ),
           ),

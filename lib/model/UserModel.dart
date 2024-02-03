@@ -2,16 +2,16 @@ class UserModel {
   String? uid;
   String? fullName;
   String? emailAddress;
-  //String? profilepic;
+  String? profilepic;
 
-  UserModel({this.uid, this.fullName, this.emailAddress});
+  UserModel({this.uid, this.fullName, this.emailAddress,this.profilepic});
 
   UserModel.fromMap(Map<String, dynamic> map) {
     //"userUid": userCredential!.user!.uid,
     uid = map["userUid"];
     fullName = map["username"];
     emailAddress = map["emailAddress"];
-   // profilepic = map["profilepic"];
+    profilepic = map["profileImageUrl"];
   }
 
   Map<String, dynamic> toMap() {
@@ -19,7 +19,7 @@ class UserModel {
       "userUid": uid,
       "username": fullName,
       "emailAddress": emailAddress,
-      //"profilepic": profilepic,
+      "profileImageUrl": profilepic,
     };
   }
 }

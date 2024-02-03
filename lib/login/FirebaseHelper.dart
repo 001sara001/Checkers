@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../model/RestaurantModel.dart';
 import '../model/UserModel.dart';
 
 class FirebaseHelper {
@@ -14,6 +15,18 @@ class FirebaseHelper {
     }
 
     return userModel;
+  }
+
+  static Future<RestaurantModel?> getRestaurantModelById(String restaurantUid) async {
+    RestaurantModel? restaurantModel;
+
+    DocumentSnapshot docSnap = await FirebaseFirestore.instance.collection("Restaurant names").doc(restaurantUid).get();
+
+    if(docSnap.data() != null) {
+      restaurantModel = RestaurantModel.fromMap(docSnap.data() as Map<String, dynamic>);
+    }
+
+    return restaurantModel;
   }
 
 }

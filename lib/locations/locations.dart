@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/home.dart';
-import 'package:untitled1/widgets/custom_scaffold.dart';
+import '../home.dart';
+import '../widgets/custom_scaffold.dart';
 
 class Locations extends StatefulWidget {
   const Locations({Key? key}) : super(key: key);

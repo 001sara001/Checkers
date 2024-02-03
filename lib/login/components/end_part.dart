@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:untitled1/signup/signup_page.dart';
 
+
+import '../../signup/signup_page.dart';
 import '../../widgets/my_button.dart';
 class EndPart extends StatelessWidget {
   final void Function()? onPressed;

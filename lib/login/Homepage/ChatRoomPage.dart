@@ -7,10 +7,12 @@ import 'package:untitled1/login/Homepage/ChatRoomModel.dart';
 import 'package:untitled1/login/Homepage/MessageModel.dart';
 
 import '../../main.dart';
+import '../../model/RestaurantModel.dart';
 import '../../model/UserModel.dart';
+import '../../screens/restaurant.dart';
 
 class ChatRoomPage extends StatefulWidget {
-  final UserModel targetUser;
+  final RestaurantModel targetUser;
   final ChatRoomModel chatRoom;
   final UserModel userModel;
   final User firebaseUser;
@@ -55,10 +57,10 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
             children: [
              CircleAvatar(
                backgroundColor: Colors.blueGrey[300],
-              // backgroundImage: NetworkImage(widget.targetUser.profilepic.toString()),
+               backgroundImage: NetworkImage(widget.targetUser.profilepic.toString()),
              ),
             SizedBox(width: 10,),
-            Text(widget.targetUser.fullName.toString()),
+            Text(widget.targetUser.fullRestaurantName.toString()),
             ],
           )
       ),
@@ -76,7 +78,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     ),
                     child: StreamBuilder(
                       stream: FirebaseFirestore.instance.collection("chatrooms")
-                          .doc(widget.chatRoom.chatroomid).collection("messages").orderBy("createdon", descending: true).snapshots(),
+                          .doc(widget.chatRoom.chatroomid).collection("messages")
+                          .orderBy("createdon", descending: true).snapshots(),
                       builder: (context,snapshot){
                         if(snapshot.connectionState==ConnectionState.active){
                           if(snapshot.hasData) {
@@ -86,7 +89,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                               reverse: true,
                              itemCount: dataSnapshot.docs.length,
                               itemBuilder: (context, index) {
-                                MessageModel currentMessage = MessageModel.fromMap(dataSnapshot.docs[index].data() as Map<String, dynamic>);
+                                MessageModel currentMessage = MessageModel.fromMap(dataSnapshot.docs[index]
+                                    .data() as Map<String, dynamic>);
 
                                 return Row(
                                   mainAxisAlignment: (currentMessage.sender == widget.userModel.uid) ?
@@ -101,7 +105,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                           horizontal: 10,
                                         ),
                                         decoration: BoxDecoration(
-                                          color: (currentMessage.sender == widget.userModel.uid) ? Colors.grey : Theme.of(context).colorScheme.secondary,
+                                          color: (currentMessage.sender == widget.userModel.uid) ?
+                                          Colors.grey : Theme.of(context).colorScheme.secondary,
                                           borderRadius: BorderRadius.circular(5),
                                         ),
                                         child: Text(

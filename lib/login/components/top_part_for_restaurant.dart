@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'image_add.dart';
+
 class TopPartForRestaurant extends StatelessWidget {
   const TopPartForRestaurant({Key? key}) : super(key: key);
 
@@ -21,7 +23,7 @@ class TopPartForRestaurant extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             ),
-
+            //ImageAdd(),
           ],
         ),
       ],

@@ -129,3 +129,4 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
 
 
 }
+

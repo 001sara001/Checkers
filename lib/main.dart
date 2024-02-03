@@ -26,12 +26,12 @@ Future<void> main() async {
   SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
-  /*if(currentUser != null) {
+  if(currentUser != null) {
     // Logged In
     UserModel? thisUserModel=await FirebaseHelper.getUserModelById(currentUser.uid);
     if(thisUserModel != null) {
-      //runApp(MyAppLoggedIn(userModel: thisUserModel, firebaseUser: currentUser));
-      runApp(MyAppLoggedIn());
+      runApp(MyAppLoggedIn(userModel: thisUserModel, firebaseUser: currentUser));
+      //runApp(MyAppLoggedIn());
     }
     else {
       runApp(MyApp());
@@ -40,9 +40,9 @@ Future<void> main() async {
   else {
     // Not logged in
     runApp(MyApp());
-  }*/
+  }
 
-  runApp(const MyApp());
+  //runApp(const MyApp());
 }
 
 
@@ -90,34 +90,29 @@ class MyApp extends StatelessWidget {
 //logged in
 class MyAppLoggedIn extends StatelessWidget {
   // This widget is the root of your application.
-  /*final UserModel userModel;
+  final UserModel userModel;
   final User firebaseUser;
-*/
-  //const MyAppLoggedIn({super.key, required this.userModel, required this.firebaseUser});
-  const MyAppLoggedIn({super.key});
+
+  const MyAppLoggedIn({super.key, required this.userModel, required this.firebaseUser});
+  //const MyAppLoggedIn({super.key});
   @override
 
   Widget build(BuildContext context) {
     return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            appBarTheme: AppBarTheme(
-              iconTheme: IconThemeData(
-                color: Colors.black,
-              ),
-            ),
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
-            useMaterial3: true,
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.black,
           ),
-         // home: HomePage(userModel: userModel,firebaseUser:firebaseUser),
-         home:MyHomePage(),
-        );
+        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+        useMaterial3: true,
+      ),
+       home: HomePage(userModel: userModel,firebaseUser:firebaseUser),
+     // home:MyHomePage(),
+    );
   }
 }
 //
-
-
-
-
-

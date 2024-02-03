@@ -107,4 +107,3 @@ class rest_home2 extends StatelessWidget {
     return userDoc.get('logo') ?? ''; // Replace 'restaurantImageUrl' with the actual field name in your user document
   }
 }
-
