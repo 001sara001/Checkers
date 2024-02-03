@@ -104,7 +104,6 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
               builder: (context)=>rest_home2(),
               //
               //builder: (context)=>HomePage(),
-              builder: (context)=>rest_home(),
             ),
           );
         });

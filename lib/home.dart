@@ -1,5 +1,9 @@
+//import 'dart:js_util';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:untitled1/page/MenuPage.dart';
 import 'package:untitled1/page/MyDrawerr.dart';
 import 'package:untitled1/rest2ndpage/drawer.dart';
@@ -19,13 +23,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         title: Center(
           child: Text("Checkers"),
         ),
 
-       /* actions: [
+        /* actions: [
           IconButton(
             onPressed: () {
               FirebaseAuth.instance.signOut().then(
@@ -42,15 +45,41 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],*/
       ),
-
       endDrawer: MyDrawer(),
-      body: GestureDetector(
+      body: /*GestureDetector(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => RestPage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => RestPage(
+            id: streamSnapshot.data!.docs[index],
+          )));
         },
-        child: Container(
-          padding: EdgeInsets.all(16.0),
-          child: Card(
+        child:*/ Container(
+          child: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("Restaurant names")
+                .snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
+              if (!streamSnapshot.hasData) {
+                return const CircularProgressIndicator();
+              }
+              return ListView.builder(
+                  itemCount: streamSnapshot.data!.docs.length,
+                  itemBuilder: (ctx, index) {
+                    return Restaurant(
+                      onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RestPage(
+                        id: streamSnapshot.data!.docs[index].id,
+                          image:streamSnapshot.data!.docs[index]["logo"],
+                          collection: streamSnapshot.data!.docs[index]["fullName"])));
+                      },
+                      name: streamSnapshot.data!.docs[index]["fullName"],
+                      image: streamSnapshot.data!.docs[index]["logo"],
+                    );
+                  });
+            },
+          ),
+
+          /*child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
               side: BorderSide(color: Colors.grey, width: 1.0),
@@ -78,9 +107,56 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
+          ),*/
+        ),
+     // ),
+    );
+  }
+}
+
+class Restaurant extends StatelessWidget {
+  final String image;
+  final String name;
+  final Function()? onTap;
+  const Restaurant({Key? key, required this.image, required this.name,required this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  GestureDetector(
+      onTap: onTap,
+      child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            side: BorderSide(color: Colors.white, width: 1.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                ),
+                Container(
+                  width: 80.0, // Adjust the width as needed
+                  height: 80.0, // Adjust the height as needed
+                  decoration:  BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(image),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                 /* Image.asset(
+                    'assets/images/img2.png',
+                    fit: BoxFit.cover,
+                  ),*/
+                ),
+              ],
+            ),
           ),
         ),
-      ),
     );
   }
 }

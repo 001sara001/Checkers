@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:untitled1/login/components/login_page_for_restaurant.dart';
 import 'package:untitled1/signup/components/signup_auth_provider_for_restaurant.dart';
 
 
@@ -150,7 +151,7 @@ class _SignupPageForRestaurantState extends State<SignupPageForRestaurant> {
                       Text("Already have an account for the restaurant?\t\t"),
                       GestureDetector(
                         onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginPage(),));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginPageForRestaurant(),));
                         },
                         child: const Text("Sign in"),),
                     ],
