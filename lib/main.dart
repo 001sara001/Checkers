@@ -25,7 +25,7 @@ Future<void> main() async {
   );
   SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
   User? currentUser = FirebaseAuth.instance.currentUser;
-
+/*
   if(currentUser != null) {
     // Logged In
     UserModel? thisUserModel=await FirebaseHelper.getUserModelById(currentUser.uid);
@@ -41,8 +41,9 @@ Future<void> main() async {
     // Not logged in
     runApp(MyApp());
   }
+  */
 
-  //runApp(const MyApp());
+  runApp(const MyApp());
 }
 
 
