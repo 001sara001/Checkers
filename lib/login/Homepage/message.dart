@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+/*import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/UserModel.dart';
@@ -24,8 +24,8 @@ class _MessageState extends State<Message> {
           icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
-            size: 30,
-          ),
+            size: 30,*/
+         /* ),
           onPressed: () {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
@@ -40,4 +40,5 @@ class _MessageState extends State<Message> {
       ),
     );
   }
-}
+}*/
+//

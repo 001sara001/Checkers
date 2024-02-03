@@ -25,6 +25,7 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
     required String imageUrl, // Add imageUrl as a parameter
     required BuildContext context
   }) async {
+
     if (fullRestaurantName!.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -74,7 +75,19 @@ class SignupAuthProviderForRestaurant with ChangeNotifier {
         ),
       );
       return;
-    }else {
+    }
+    else if (imageUrl.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Please add a logo"),
+        ),
+      );
+      return;
+    }
+
+
+
+    else {
       try {
         loading = true;
         notifyListeners();

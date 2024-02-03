@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled1/login/Homepage/HomePage.dart';
+import 'package:untitled1/login/Homepage/HomePageForRestaurant.dart';
 import 'package:untitled1/model/UserModel.dart';
 import 'package:untitled1/signup/components/signup_auth_provider.dart';
 import 'package:untitled1/signup/components/signup_auth_provider_for_restaurant.dart';
@@ -15,6 +16,7 @@ import 'home.dart';
 import 'login/FirebaseHelper.dart';
 import 'login/components/login_auth_provider-for_restaurant.dart';
 import 'login/components/login_auth_provider.dart';
+import 'model/RestaurantModel.dart';
 
 var uuid=Uuid();
 
@@ -25,14 +27,21 @@ Future<void> main() async {
   );
   SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
   User? currentUser = FirebaseAuth.instance.currentUser;
+  //User? currentUser = FirebaseAuth.instance.currentUser;
 
   if(currentUser != null) {
     // Logged In
     UserModel? thisUserModel=await FirebaseHelper.getUserModelById(currentUser.uid);
+    RestaurantModel? thisRestaurantModel=await FirebaseHelper.getRestaurantModelById(currentUser.uid);
     if(thisUserModel != null) {
       runApp(MyAppLoggedIn(userModel: thisUserModel, firebaseUser: currentUser));
+     //runApp(MyAppLoggedIn());
+    }
+    else if(thisRestaurantModel != null) {
+      runApp(MyAppLoggedInAsRestaurantOwner(restaurantModel: thisRestaurantModel, firebaseUser: currentUser));
       //runApp(MyAppLoggedIn());
     }
+
     else {
       runApp(MyApp());
     }
@@ -83,7 +92,6 @@ class MyApp extends StatelessWidget {
           ),
           home: const Splash(),
         )
-
     );
   }
 }
@@ -111,8 +119,36 @@ class MyAppLoggedIn extends StatelessWidget {
         useMaterial3: true,
       ),
        home: HomePage(userModel: userModel,firebaseUser:firebaseUser),
-     // home:MyHomePage(),
+      //home:MyHomePage(),
     );
   }
 }
-//
+//logged in as restaurant owner
+
+class MyAppLoggedInAsRestaurantOwner extends StatelessWidget {
+  // This widget is the root of your application.
+  final RestaurantModel restaurantModel;
+  final User firebaseUser;
+
+  //const MyAppLoggedIn({super.key, required this.userModel, required this.firebaseUser});
+  const MyAppLoggedInAsRestaurantOwner({super.key, required this.restaurantModel, required this.firebaseUser});
+  @override
+
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+        useMaterial3: true,
+      ),
+      home: HomePageForRestaurant(restaurantModel: restaurantModel,firebaseUser:firebaseUser),
+      //home:MyHomePage(),
+    );
+  }
+}

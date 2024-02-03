@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled1/SearchPage/SearchPageForRestaurant.dart';
+import 'package:untitled1/login/Homepage/ChatRoomPageForRestaurant.dart';
 import 'package:untitled1/model/RestaurantModel.dart';
 import 'package:untitled1/page/Profile.dart';
 
@@ -13,17 +15,20 @@ import '../login_page.dart';
 import 'ChatRoomModel.dart';
 import 'ChatRoomPage.dart';
 
-class HomePage extends StatefulWidget {
-  final UserModel userModel;
+class HomePageForRestaurant extends StatefulWidget {
+  final RestaurantModel restaurantModel;
   final User firebaseUser;
 
-  const HomePage({Key? key, required this.userModel, required this.firebaseUser}) : super(key: key);
+  const HomePageForRestaurant({
+    Key? key, required this.firebaseUser,
+    required this.restaurantModel}) :
+        super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageForRestaurantState createState() => _HomePageForRestaurantState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageForRestaurantState extends State<HomePageForRestaurant> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +57,8 @@ class _HomePageState extends State<HomePage> {
         child: Container(
           child: StreamBuilder(
             stream: FirebaseFirestore.instance.collection("chatrooms")
-                .where("participants.${widget.userModel.uid}", isEqualTo: true).snapshots(),
+                .where("participants.${widget.restaurantModel.restaurantuid}",
+                isEqualTo: true).snapshots(),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.active) {
                 if(snapshot.hasData) {
@@ -67,38 +73,46 @@ class _HomePageState extends State<HomePage> {
                       Map<String, dynamic> participants = chatRoomModel.participants!;
 
                       List<String> participantKeys = participants.keys.toList();
-                      participantKeys.remove(widget.userModel.uid);
+                      participantKeys.remove(widget.restaurantModel.restaurantuid);
 
                       return FutureBuilder(
-                        future: FirebaseHelper.getRestaurantModelById(participantKeys[0]),
-                        builder: (context, restaurantData) {
-                          if(restaurantData.connectionState == ConnectionState.done) {
-                            if(restaurantData.data != null) {
-                              RestaurantModel targetUser =restaurantData.data as  RestaurantModel;
+                        future: FirebaseHelper.getUserModelById(participantKeys[0]),
+                        builder: (context, userData) {
+                          if(userData.connectionState == ConnectionState.done) {
+                            if(userData.data != null) {
+                             UserModel targetUser =userData.data as  UserModel;
 
                               return ListTile(
                                 onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) {
-                                      return ChatRoomPage(
+                                     /* return ChatRoomPageForRestaurant(
                                         chatRoom: chatRoomModel,
                                         firebaseUser: widget.firebaseUser,
-                                        userModel: widget.userModel,
+                                        restaurantModel: widget.restaurantModel,
+                                        targetUser: targetUser,
+                                      );
+*/
+                                      return ChatRoomPageForRestaurant(
+                                        chatRoom: chatRoomModel,
+                                        firebaseUser: widget.firebaseUser,
+                                        restaurantModel: widget.restaurantModel,
                                         targetUser: targetUser,
                                       );
                                     }),
                                   );
                                 },
                                 leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(targetUser.profilepic.toString()),
+                                  //backgroundImage: NetworkImage(targetUser.profilepic.toString()),
                                 ),
-                                title: Text(targetUser.fullRestaurantName.toString()),
+                                title: Text(targetUser.fullName.toString()),
                                 subtitle: (chatRoomModel.lastMessage.toString() != "") ?
                                 Text(chatRoomModel.lastMessage.toString())
                                     : Text("Say hi to your new friend!", style: TextStyle(
                                   color: Theme.of(context).colorScheme.secondary,
-                                ),),
+                                ),
+                                ),
                               );
                             }
                             else {
@@ -136,8 +150,12 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return SearchPage(userModel: widget.userModel, firebaseUser: widget.firebaseUser);
-          }));
+            return SearchPageForRestaurant(
+                restaurantModel: widget.restaurantModel,
+                firebaseUser: widget.firebaseUser);
+          }
+          )
+          );
         },
         child: Icon(Icons.search),
       ),
