@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled1/api/firebase_api.dart';
+import 'package:untitled1/api/notification_page.dart';
 import 'package:untitled1/login/Homepage/HomePage.dart';
 import 'package:untitled1/model/UserModel.dart';
 import 'package:untitled1/signup/components/signup_auth_provider.dart';
@@ -16,6 +18,8 @@ import 'login/FirebaseHelper.dart';
 import 'login/components/login_auth_provider-for_restaurant.dart';
 import 'login/components/login_auth_provider.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 var uuid=Uuid();
 
 Future<void> main() async {
@@ -23,6 +27,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseApi().initNotifications();
   SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
   User? currentUser = FirebaseAuth.instance.currentUser;
 
@@ -112,6 +117,10 @@ class MyAppLoggedIn extends StatelessWidget {
           ),
          // home: HomePage(userModel: userModel,firebaseUser:firebaseUser),
          home:MyHomePage(),
+      navigatorKey: navigatorKey,
+      routes: {
+            '/notification_screen': (context) => const NotificationPage(),
+      },
         );
   }
 }
