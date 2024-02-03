@@ -5,26 +5,32 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled1/login/Homepage/HomePage.dart';
 import 'package:untitled1/model/UserModel.dart';
+import 'package:untitled1/page/notification_page.dart';
 import 'package:untitled1/signup/components/signup_auth_provider.dart';
 import 'package:untitled1/signup/components/signup_auth_provider_for_restaurant.dart';
 import 'package:untitled1/splash.dart';
 import "package:untitled1/firebase_options.dart";
 import 'package:uuid/uuid.dart';
 
+import 'api/firebase_api.dart';
 import 'home.dart';
 import 'login/FirebaseHelper.dart';
 import 'login/components/login_auth_provider-for_restaurant.dart';
 import 'login/components/login_auth_provider.dart';
 
 var uuid=Uuid();
+final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+
   SharedPreferences? sharedPreferences = await SharedPreferences.getInstance();
   User? currentUser = FirebaseAuth.instance.currentUser;
+
 
   /*if(currentUser != null) {
     // Logged In
@@ -53,6 +59,10 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
+  void initState(){
+
+    FirebaseApi().initNotification();
+  }
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
@@ -112,6 +122,10 @@ class MyAppLoggedIn extends StatelessWidget {
           ),
          // home: HomePage(userModel: userModel,firebaseUser:firebaseUser),
          home:MyHomePage(),
+      navigatorKey: navigatorKey ,
+      routes: {
+            '/notification_screen':(context)=>const notificationPage(),
+      },
         );
   }
 }
