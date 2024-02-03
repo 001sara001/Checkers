@@ -245,6 +245,7 @@ class _rest_homeState extends State<rest_home> {
               decoration: InputDecoration(border: InputBorder.none),
 
             ),
+
           ),
           SizedBox(height: 10.0,),
           Text("Item Price", style: TextStyle(color: Colors.black,
