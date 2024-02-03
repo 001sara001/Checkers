@@ -8,7 +8,8 @@ import '../helper/helper_method.dart';
 
 
 class ReviewPage extends StatefulWidget {
-  const ReviewPage({Key? key}) : super(key: key);
+  final String id;
+  const ReviewPage({Key? key, required this.id}) : super(key: key);
 
   @override
   State<ReviewPage> createState() => _ReviewPageState();
@@ -21,7 +22,11 @@ class _ReviewPageState extends State<ReviewPage> {
 
   void postMessage() {
     if (textController.text.isNotEmpty) {
-      FirebaseFirestore.instance.collection("UserPosts").add({
+      FirebaseFirestore.instance
+          .collection("Restaurant names")
+          .doc(widget.id)
+          .collection("Userpost")
+          .add({
         'UserEmail': currentUser.email,
         'Message': textController.text,
         'Timestamp': Timestamp.now(),
@@ -48,7 +53,9 @@ class _ReviewPageState extends State<ReviewPage> {
             Expanded(
               child: StreamBuilder(
                 stream: FirebaseFirestore.instance
-                    .collection("UserPosts")
+                    .collection("Restaurant names")
+                    .doc(widget.id)
+                    .collection("Userpost")
                     .orderBy("Timestamp", descending: true)
                     .snapshots(),
                 builder: (context, snapshot) {
@@ -58,6 +65,7 @@ class _ReviewPageState extends State<ReviewPage> {
                       itemBuilder: (context, index) {
                         final post = snapshot.data!.docs[index];
                         return WallPost(
+                          id: widget.id,
                           message: post['Message'],
                           user: post['UserEmail'],
                           postId: post.id,

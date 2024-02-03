@@ -14,9 +14,11 @@ class WallPost extends StatefulWidget {
   final String time;
   final List<String> likes;
   final int? rating;
+  final String id;
 
   const WallPost({
     Key? key,
+    required this.id,
     required this.message,
     required this.user,
     required this.likes,
@@ -45,8 +47,11 @@ class _WallPostState extends State<WallPost> {
       isLiked = !isLiked;
     });
 
-    DocumentReference postRef =
-    FirebaseFirestore.instance.collection('UserPosts').doc(widget.postId);
+    DocumentReference postRef = FirebaseFirestore.instance
+        .collection('Restaurant names')
+        .doc(widget.id)
+        .collection('Userpost')
+        .doc(widget.postId);
 
     if (isLiked) {
       postRef.update({
@@ -61,7 +66,9 @@ class _WallPostState extends State<WallPost> {
 
   void addComment(String commentText) {
     FirebaseFirestore.instance
-        .collection("UserPosts")
+        .collection("Restaurant names")
+        .doc(widget.id)
+        .collection("Userpost")
         .doc(widget.postId)
         .collection("Comments")
         .add({
@@ -121,14 +128,18 @@ class _WallPostState extends State<WallPost> {
             onPressed: () async {
               //delete the comment from the firestore first
               final commentDocs = await FirebaseFirestore.instance
-                  .collection("UserPosts")
+                  .collection("Restaurant names")
+                  .doc(widget.id)
+                  .collection("Userpost")
                   .doc(widget.postId)
                   .collection("Comments")
                   .get();
 
               for (var doc in commentDocs.docs) {
                 await FirebaseFirestore.instance
-                    .collection("UserPosts")
+                    .collection("Restaurant names")
+                    .doc(widget.id)
+                    .collection("Userpost")
                     .doc(widget.postId)
                     .collection("Comments")
                     .doc(doc.id)
@@ -137,11 +148,14 @@ class _WallPostState extends State<WallPost> {
 
               //delete the wallpost
               FirebaseFirestore.instance
-                  .collection("UserPosts")
+                  .collection("Restaurant names")
+                  .doc(widget.id)
+                  .collection("Userpost")
                   .doc(widget.postId)
                   .delete()
                   .then((value) => print("Post Deleted"))
-                  .catchError((error) => print("Failed to delete review: $error"));
+                  .catchError(
+                      (error) => print("Failed to delete review: $error"));
 
               //dismiss the dialog box
               Navigator.pop(context);
@@ -221,7 +235,8 @@ class _WallPostState extends State<WallPost> {
                   ],
                 ),
               ),
-              if (widget.user == currentUser.email) DeleteButton(onTap: deletePost),
+              if (widget.user == currentUser.email)
+                DeleteButton(onTap: deletePost),
             ],
           ),
           Row(
@@ -260,10 +275,11 @@ class _WallPostState extends State<WallPost> {
               buildStarRating(getRating()),
             ],
           ),
-
           StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
-                .collection("UserPosts")
+                .collection("Restaurant names")
+                .doc(widget.id)
+                .collection("Userpost")
                 .doc(widget.postId)
                 .collection("Comments")
                 .orderBy("CommentTime", descending: true)
