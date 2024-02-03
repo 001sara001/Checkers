@@ -15,6 +15,7 @@ class SignupAuthProvider with ChangeNotifier {
     required TextEditingController? fullName,
     required TextEditingController? emailAddress,
     required TextEditingController? password,
+    //required String imageUrl,
     required BuildContext context
   }) async {
     if (fullName!.text.trim().isEmpty) {
@@ -81,10 +82,12 @@ class SignupAuthProvider with ChangeNotifier {
           .collection("Users")
           .doc(userCredential.user!.email)
         .set({
+          "fullName": fullName.text,
           'username': emailAddress.text.split('@')[0],// initial username
           'bio' : 'Empty bio..',
           "emailAddress" : emailAddress.text,
           "userUid": userCredential!.user!.uid,
+          //"profilepic" : profileImageUrl,
            // initial empty bio
           //additional field lagle ekhane add korbo
         },
@@ -97,9 +100,11 @@ class SignupAuthProvider with ChangeNotifier {
             .set(
           {
             "fullName": fullName.text,
+            "username": fullName.text,
             "emailAddress": emailAddress.text,
             "password": password.text,
             "userUid": userCredential!.user!.uid,
+            //"profilepic" : profileImageUrl,
           },
         ).then((value) {
           loading = false;
