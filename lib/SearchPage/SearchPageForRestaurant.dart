@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled1/login/Homepage/ChatRoomPageForRestaurant.dart';
 import 'package:untitled1/model/RestaurantModel.dart';
 
 import '../login/Homepage/ChatRoomModel.dart';
@@ -10,25 +11,25 @@ import '../login/Homepage/ChatRoomPage.dart';
 import '../main.dart';
 import '../model/UserModel.dart';
 
-class SearchPage extends StatefulWidget {
-  final UserModel userModel;
+class SearchPageForRestaurant extends StatefulWidget {
+  final RestaurantModel restaurantModel;
   final User firebaseUser;
 
-  const SearchPage({Key? key, required this.userModel, required this.firebaseUser}) : super(key: key);
+  const SearchPageForRestaurant({Key? key, required this.restaurantModel, required this.firebaseUser}) : super(key: key);
 
   @override
-  _SearchPageState createState() => _SearchPageState();
+  _SearchPageForRestaurantState createState() => _SearchPageForRestaurantState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchPageForRestaurantState extends State<SearchPageForRestaurant> {
   TextEditingController searchController = TextEditingController();
 
-  Future<ChatRoomModel?> getChatroomModel(RestaurantModel targetUser) async {
+  Future<ChatRoomModel?> getChatroomModel(UserModel targetUser) async {
     ChatRoomModel? chatRoom;
 
     QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("chatrooms")
-        .where("participants.${widget.userModel.uid}", isEqualTo: true)
-        .where("participants.${targetUser.restaurantuid}", isEqualTo: true).get();
+        .where("participants.${widget.restaurantModel.restaurantuid}", isEqualTo: true)
+        .where("participants.${targetUser.uid}", isEqualTo: true).get();
 
     if (snapshot.docs.length > 0) {
       var docData = snapshot.docs[0].data();
@@ -39,12 +40,13 @@ class _SearchPageState extends State<SearchPage> {
         chatroomid: uuid.v1(),
         lastMessage: "",
         participants: {
-          widget.userModel.uid.toString(): true,
-          targetUser.restaurantuid.toString(): true,
+          widget.restaurantModel.restaurantuid.toString(): true,
+          targetUser.uid.toString(): true,
         },
       );
 
-      await FirebaseFirestore.instance.collection("chatrooms").doc(newChatroom.chatroomid).set(newChatroom.toMap());
+      await FirebaseFirestore.instance.collection("chatrooms")
+          .doc(newChatroom.chatroomid).set(newChatroom.toMap());
 
       chatRoom = newChatroom;
 
@@ -85,7 +87,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 SizedBox(height: 20),
                 StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection("Restaurant names")
+                  stream: FirebaseFirestore.instance.collection("Users")
                       .where("emailAddress", isEqualTo: searchController.text)
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -97,8 +99,8 @@ class _SearchPageState extends State<SearchPage> {
 
                           Map<String, dynamic> userMap = dataSnapshot.docs[0].data() as Map<String, dynamic>;
 
-                          RestaurantModel searchedUser = RestaurantModel.fromMap(userMap);
-                         /* Map<String, dynamic> userMap = dataSnapshot.docs[0].data() as Map<String, dynamic>;
+                          UserModel searchedUser = UserModel.fromMap(userMap);
+                          /* Map<String, dynamic> userMap = dataSnapshot.docs[0].data() as Map<String, dynamic>;
 
                           RestaurantModel searchedUser = RestaurantModel.fromMap(userMap);
 */
@@ -113,9 +115,9 @@ class _SearchPageState extends State<SearchPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      return ChatRoomPage(
+                                      return ChatRoomPageForRestaurant(
                                         targetUser: searchedUser,
-                                        userModel: widget.userModel,
+                                        restaurantModel: widget.restaurantModel,
                                         firebaseUser: widget.firebaseUser,
                                         chatRoom: chatroomModel,
                                       );
@@ -125,18 +127,18 @@ class _SearchPageState extends State<SearchPage> {
                               }
                             },
                             leading: CircleAvatar(
-                              backgroundImage: NetworkImage(searchedUser.profilepic!),
+                              //backgroundImage: NetworkImage(searchedUser.profilepic!),
                               backgroundColor: Colors.grey[500],
                             ),
-                           /* title: Text(searchedUser.fullRestaurantName ?? ''),
+                            /* title: Text(searchedUser.fullRestaurantName ?? ''),
                             subtitle: Text(searchedUser.restaurantEmailAddress ?? ''),
                             trailing: Icon(Icons.keyboard_arrow_right),*/
-                            title: Text(searchedUser.fullRestaurantName.toString()),
-                            subtitle: Text(searchedUser.restaurantEmailAddress.toString()),
+                            title: Text(searchedUser.fullName!),
+                            subtitle: Text(searchedUser.emailAddress!),
                             trailing: Icon(Icons.keyboard_arrow_right),
                           );
                         } else {
-                          return Text(" ");
+                          return Text("Search here ");
                         }
                       } else if (snapshot.hasError) {
                         return Text("An error occurred!");
