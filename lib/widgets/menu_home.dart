@@ -78,7 +78,6 @@ class Restaurant extends StatelessWidget {
       required this.description,
       required this.price})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
