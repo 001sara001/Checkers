@@ -19,6 +19,7 @@ import 'login/components/login_auth_provider.dart';
 import 'model/RestaurantModel.dart';
 
 var uuid=Uuid();
+final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,6 +64,10 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
+  void initState(){
+
+    FirebaseApi().initNotification();
+  }
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
@@ -120,6 +125,10 @@ class MyAppLoggedIn extends StatelessWidget {
         useMaterial3: true,
       ),
        home: HomePage(userModel: userModel,firebaseUser:firebaseUser),
+       navigatorKey: navigatorKey ,
+      routes: {
+            '/notification_screen':(context)=>const notificationPage(),
+      },
       //home:MyHomePage(),
     );
   }
