@@ -57,9 +57,8 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // initsate of notification
   @override
-  // for notification
   void initState(){
 
     FirebaseApi().initNotification();
@@ -125,7 +124,7 @@ class MyAppLoggedIn extends StatelessWidget {
          home:MyHomePage(),
       navigatorKey: navigatorKey ,
       routes: {
-            '/notification_screen':(context)=>const notificationPage(),
+            '/notification_screen':(context)=>const notificationPage(),//navigate to notification page
       },
         );
   }
