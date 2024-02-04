@@ -34,8 +34,8 @@ const RestPage({Key?key,required this.id,required this.collection,required this.
               ),
             ),
           ),
-           DefaultTabController(
-            length: 3,
+          DefaultTabController(
+            length: 2, // Set the length to 2
             child: Expanded(
               child: Column(
                 children: [
@@ -43,7 +43,6 @@ const RestPage({Key?key,required this.id,required this.collection,required this.
                     tabs: [
                       Tab(text: 'Menu'),
                       Tab(text: 'Reviews'),
-                      Tab(text: 'Location'),
                     ],
                   ),
                   Expanded(
@@ -57,10 +56,6 @@ const RestPage({Key?key,required this.id,required this.collection,required this.
                         Center(
                           child: ReviewPage(id: id,), // Use the ReviewsPage widget here
                         ),
-                        // Content for the "Location" tab
-                        Center(
-                          child: Text("Location Content"),
-                        ),
                       ],
                     ),
                   ),
@@ -68,6 +63,7 @@ const RestPage({Key?key,required this.id,required this.collection,required this.
               ),
             ),
           ),
+
         ],
       ),
     );
