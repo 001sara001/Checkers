@@ -16,7 +16,7 @@ class Splash extends StatefulWidget {
 }
 class _SplashState extends State<Splash> {
   startTimer() {
-    Timer(const Duration(seconds: 3), () async {
+    Timer(const Duration(seconds: 2), () async {
       Navigator.push(
           //context, MaterialPageRoute(builder: (c) => const LoginOrResigter()));
          context, MaterialPageRoute(builder: (c) => const WelcomeScreen()));

@@ -1,3 +1,4 @@
+/*
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../main.dart';
@@ -43,3 +44,5 @@ class FirebaseApi {
     FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
   }
 }
+
+*/

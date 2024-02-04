@@ -11,8 +11,17 @@ class rest_home2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("YOUR RESTAURANT"),
+        backgroundColor: Colors.blue[100],  // Light teal background color
+        title: Text(
+          "     YOUR RESTAURANT",
+          style: TextStyle(
+            color: Colors.black,  // Black text color
+            fontSize: 22.0,  // Adjust font size as needed
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
+
       endDrawer: rest_drawer(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -58,124 +58,129 @@ class _formState extends State<form> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Form",
-              style: TextStyle(
-                  color: Colors.teal,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold),
+        title: Center(
+          child: Text(
+            "Form        ",
+            style: TextStyle(
+              color: Colors.blueAccent,
+              fontSize: 28.0,  // Adjust the font size as needed
+              fontWeight: FontWeight.bold,
             ),
-          ],
+          ),
         ),
         centerTitle: true,
       ),
-      body: Container(
-        margin: EdgeInsets.only(left: 25.0, top: 30.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("Item Name",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-          Container(
-            padding: EdgeInsets.only(left: 10.0),
-            decoration: BoxDecoration(
-                border: Border.all(), borderRadius: BorderRadius.circular(18)),
-            child: TextField(
-              controller: namecontroller,
-              decoration: InputDecoration(border: InputBorder.none),
-            ),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Text("Item Description",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-          Container(
-            padding: EdgeInsets.only(left: 10.0),
-            decoration: BoxDecoration(
-                border: Border.all(), borderRadius: BorderRadius.circular(18)),
-            child: TextField(
-              controller: descontroller,
-              decoration: InputDecoration(border: InputBorder.none),
-            ),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          Text("Item Price",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-          Container(
-            padding: EdgeInsets.only(left: 10.0),
-            decoration: BoxDecoration(
-                border: Border.all(), borderRadius: BorderRadius.circular(18)),
-            child: TextField(
-              controller: pricecontroller,
-              decoration: InputDecoration(border: InputBorder.none),
-            ),
-          ),
-          SizedBox(
-            height: 10.0,
-          ),
-          /*Text("Item Image",
+      body: SingleChildScrollView( // Wrap with SingleChildScrollView
+        child: Container(
+          margin: EdgeInsets.only(left: 25.0, top: 30.0, right: 25.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Item Name",
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
-            GestureDetector(
-              onTap: () {
-                // _pickImage();
-                ImagePicker imagePicker = ImagePicker();
-                imagePicker.pickImage(source: ImageSource.gallery);
-              },
-              child: Container(
-                padding: EdgeInsets.all(8.0),
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 10.0),
                 decoration: BoxDecoration(
                   border: Border.all(),
                   borderRadius: BorderRadius.circular(18),
                 ),
-                child: _image == null
-                    ? Icon(Icons.add_a_photo, size: 50, color: Colors.teal)
-                    : Image.file(_image!),
+                child: TextField(
+                  controller: namecontroller,
+                  decoration: InputDecoration(border: InputBorder.none),
+                ),
               ),
-            ),*/
-          Text("Add item",
-              style: TextStyle(
+              SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                "Item Description",
+                style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
-                  fontWeight: FontWeight.bold)),
-          InkWell(
-            onTap: () {
-              _getImage();
-            },
-            child: CircleAvatar(
-              radius: MediaQuery.of(context).size.width * 0.15,
-              backgroundColor: Colors.white,
-              backgroundImage:
-              imageXFIle == null ? null : FileImage(File(imageXFIle!.path)),
-              child: imageXFIle == null
-                  ? Icon(
-                Icons.add_photo_alternate,
-                size: MediaQuery.of(context).size.width * 0.15,
-                color: Colors.grey,
-              )
-                  : null,
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Center(
-              child: ElevatedButton(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 10.0),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: TextField(
+                  controller: descontroller,
+                  decoration: InputDecoration(border: InputBorder.none),
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                "Item Price",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 10.0),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: TextField(
+                  controller: pricecontroller,
+                  decoration: InputDecoration(border: InputBorder.none),
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                "Add item",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  _getImage();
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CircleAvatar(
+                        radius: MediaQuery.of(context).size.width * 0.15,
+                        backgroundColor: Colors.white,
+                        backgroundImage: imageXFIle == null ? null : FileImage(File(imageXFIle!.path)),
+                        child: imageXFIle == null
+                            ? Icon(
+                          Icons.add_photo_alternate,
+                          size: MediaQuery.of(context).size.width * 0.15,
+                          color: Colors.grey,
+                        )
+                            : null,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(
+                height: 30,
+              ),
+              Center(
+                child: ElevatedButton(
                   onPressed: () async {
                     if (namecontroller.text != null ||
                         descontroller.text != null ||
@@ -195,32 +200,39 @@ class _formState extends State<form> {
                           .then((value) {
                         Navigator.pop(context);
                         Fluttertoast.showToast(
-                            msg: "Menu Detail Has been added succesfully",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
-                      });
-
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: "Fill up the empty feilds",
+                          msg: "Menu Detail Has been added successfully",
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.CENTER,
                           timeInSecForIosWeb: 1,
                           backgroundColor: Colors.red,
                           textColor: Colors.white,
-                          fontSize: 16.0);
+                          fontSize: 16.0,
+                        );
+                      });
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: "Fill up the empty fields",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
                     }
                   },
                   child: Text(
                     "Add",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  )))
-        ]),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
+
+
 }

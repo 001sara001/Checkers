@@ -12,6 +12,9 @@ class TopPartForRestaurant extends StatelessWidget {
       children: [
         Column(
           children: [
+            SizedBox(
+              height: 50,
+            ),
             //Image.asset("images/Checkers.png",scale:10),
             Image.asset("assets/images/Checkers.png", scale: 2),
             const SizedBox(
@@ -22,6 +25,10 @@ class TopPartForRestaurant extends StatelessWidget {
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
+
+            ),
+            SizedBox(
+              height: 30,
             ),
             //ImageAdd(),
           ],

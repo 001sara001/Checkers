@@ -27,44 +27,44 @@ class _LoginPageForRestaurantState extends State<LoginPageForRestaurant> {
         backgroundColor: Colors.black,
         elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            //top part
-            TopPartForRestaurant(),
-            //center part
-            CenterPartForRestaurant(
-              email: email,
-              password: password,
-              obscureText: visible,
-              onPressed: () {
-                setState(() {
-                  visible = !visible;
-                });
-              },
-              icon: Icon(
-                visible ? Icons.visibility_off : Icons.visibility,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              // top part
+              TopPartForRestaurant(),
+              // center part
+              CenterPartForRestaurant(
+                email: email,
+                password: password,
+                obscureText: visible,
+                onPressed: () {
+                  setState(() {
+                    visible = !visible;
+                  });
+                },
+                icon: Icon(
+                  visible ? Icons.visibility_off : Icons.visibility,
+                ),
               ),
-            ),
-            //end part
-            EndPartForRestaurant(
-              loading: loginAuthProviderForRestaurant.loading,
-              onPressed: () {
-                loginAuthProviderForRestaurant.loginValidation(
-                  emailAdress : email,
-                  password: password,
-                  context: context,
-                );
-              },
-            ),
-
-
-          ],
+              // end part
+              EndPartForRestaurant(
+                loading: loginAuthProviderForRestaurant.loading,
+                onPressed: () {
+                  loginAuthProviderForRestaurant.loginValidation(
+                    emailAdress: email,
+                    password: password,
+                    context: context,
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
-
   }
+
 }

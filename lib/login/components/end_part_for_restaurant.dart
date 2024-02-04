@@ -13,6 +13,9 @@ class EndPartForRestaurant extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(
+          height: 50,
+        ),
         loading == true
             ? CircularProgressIndicator()
             : MyButton(
